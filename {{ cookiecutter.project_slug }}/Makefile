@@ -35,6 +35,9 @@ ifndef PIP_CMD
   PIP_CMD := pip
 endif
 
+# Pip options that are always to be used
+pip_opts := --disable-pip-version-check --no-python-version-warning
+
 # Package level
 ifndef PACKAGE_LEVEL
   PACKAGE_LEVEL := latest
@@ -228,22 +231,20 @@ dist_included_files := \
     $(wildcard *.py) \
     $(wildcard $(package_name)/*.py) \
 
-PIP_INSTALL_CMD := $(PYTHON_CMD) -m pip install
-
 .PHONY: help
 help:
 	@echo "Makefile for $(project_name) project"
 	@echo "$(package_name) package version: $(package_version)"
 	@echo ""
 	@echo "Make targets:"
-	@echo "  install    - Install $(package_name) (as editable) and its dependent packages"
-	@echo "  develop    - Set up development of $(project_name) project"
+	@echo "  develop    - Set up development of $(project_name) project (installs $(package_name) as editable)"
 	@echo "  build      - Build the distribution archive files in: $(dist_dir)"
 	@echo "  builddoc   - Build documentation in: $(doc_build_dir)"
 	@echo "  check      - Run Flake8 on Python sources"
 	@echo "  pylint     - Run PyLint on Python sources"
 	@echo "  test       - Run unit tests"
 	@echo "  all        - Do all of the above"
+	@echo "  install    - Install $(package_name) as standalone and its dependent packages"
 	@echo "  end2end    - Run end2end tests"
 	@echo "  upload     - build + upload the distribution archive files to PyPI"
 	@echo "  clean      - Remove any temporary files"
@@ -285,15 +286,16 @@ platform:
 	@echo "Python command name: $(PYTHON_CMD)"
 	@echo "Python command location: $(shell $(WHICH) $(PYTHON_CMD))"
 	@echo "Python version: $(python_full_version)"
-	@echo "Python bite size: $(python_bitsize)"
+	@echo "Python bit size: $(python_bitsize)"
 	@echo "Pip command name: $(PIP_CMD)"
 	@echo "Pip command location: $(shell $(WHICH) $(PIP_CMD))"
-	@echo "$(package_name) package version: $(package_version)"
+	@echo "Package $(package_name) version: $(package_version)"
+	@echo "Package $(package_name) installation: $(shell $(PIP_CMD) $(pip_opts) show $(package_name) | grep Location)"
 
 .PHONY: pip_list
 pip_list:
-	@echo "Makefile: Python packages as seen by make:"
-	$(PIP_CMD) list
+	@echo "Makefile: Installed Python packages:"
+	$(PIP_CMD) $(pip_opts) list
 
 .PHONY: env
 env:
@@ -307,56 +309,75 @@ ifeq (,$(package_version))
 endif
 
 pip_upgrade_$(python_mn_version).done: Makefile
-	@echo "Makefile: Installing/upgrading Pip with PACKAGE_LEVEL=$(PACKAGE_LEVEL)"
+	@echo "Makefile: Installing/upgrading Pip (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
-	$(PIP_INSTALL_CMD) $(pip_level_opts) pip
+	$(PYTHON_CMD) -m pip $(pip_opts) install $(pip_level_opts) pip
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading Pip"
 
 install_basic_$(python_mn_version).done: Makefile pip_upgrade_$(python_mn_version).done
-	@echo "Makefile: Installing/upgrading basic Python packages with PACKAGE_LEVEL=$(PACKAGE_LEVEL)"
+	@echo "Makefile: Installing/upgrading basic Python packages (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PYTHON_CMD) tools/remove_duplicate_setuptools.py
-	$(PIP_INSTALL_CMD) $(pip_level_opts) setuptools wheel
+	$(PIP_CMD) $(pip_opts) install $(pip_level_opts) setuptools wheel
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading basic Python packages"
 
-install_package_$(python_mn_version).done: Makefile pip_upgrade_$(python_mn_version).done requirements.txt setup.py
+install_reqs_$(python_mn_version).done: Makefile install_basic_$(python_mn_version).done requirements.txt
+	@echo "Makefile: Installing Python installation prerequisites (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
-ifdef TEST_INSTALLED
-	@echo "Makefile: Skipping installation of $(package_name) and its Python runtime prerequisites because TEST_INSTALLED is set"
-	@echo "Makefile: Checking whether $(package_name) is actually installed:"
-	$(PIP_CMD) show $(package_name)
-else
-	@echo "Makefile: Installing $(package_name) (as editable) and its Python installation prerequisites (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
-	-$(call RMDIR_FUNC,build $(package_name).egg-info .eggs)
-	$(PIP_INSTALL_CMD) $(pip_level_opts) -r requirements.txt
-	$(PIP_INSTALL_CMD) $(pip_level_opts) -e .
-	@echo "Makefile: Done installing $(package_name) and its Python runtime prerequisites"
-endif
+	$(PIP_CMD) $(pip_opts) install $(pip_level_opts) -r requirements.txt
 	echo "done" >$@
+	@echo "Makefile: Done installing Python installation prerequisites"
+
+develop_reqs_$(python_mn_version).done: install_basic_$(python_mn_version).done dev-requirements.txt
+	@echo "Makefile: Installing development requirements (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
+	-$(call RM_FUNC,$@)
+	$(PIP_CMD) $(pip_opts) install $(pip_level_opts) -r dev-requirements.txt
+	echo "done" >$@
+	@echo "Makefile: Done installing development requirements"
 
 .PHONY: install
-install: install_$(python_mn_version).done
-	@echo "Makefile: Target $@ done."
-
-install_$(python_mn_version).done: Makefile install_basic_$(python_mn_version).done install_package_$(python_mn_version).done
-	@echo "Makefile: Verifying installation of $(package_name) package"
-	-$(call RM_FUNC,$@)
+install: Makefile install_reqs_$(python_mn_version).done setup.py
+ifdef TEST_INSTALLED
+	@echo "Makefile: Skipping installation of package $(package_name) as standalone because TEST_INSTALLED is set"
+	@echo "Makefile: Checking whether package $(package_name) is actually installed:"
+	$(PIP_CMD) $(pip_opts) show $(package_name)
+else
+ifeq ($(shell $(PIP_CMD) $(pip_opts) list --exclude-editable --format freeze | grep "$(package_name)=="),)
+  # if package is not installed as standalone
+	@echo "Makefile: Installing package $(package_name) as standalone (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
+	-$(PIP_CMD) $(pip_opts) uninstall -y $(package_name)
+	-$(call RMDIR_FUNC,$(package_name).egg-info)
+	$(PIP_CMD) $(pip_opts) install .
+	@echo "Makefile: Done installing package $(package_name) as standalone"
+endif
+endif
+	@echo "Makefile: Verifying installation of package $(package_name)"
 	$(PYTHON_CMD) -c "import $(package_name)"
-	echo "done" >$@
-	@echo "Makefile: Done verifying installation of $(package_name) package"
+	@echo "Makefile: Done verifying installation of package $(package_name)"
+	@echo "Makefile: Target $@ done."
 
 .PHONY: develop
-develop: develop_$(python_mn_version).done
+develop: Makefile install_reqs_$(python_mn_version).done develop_reqs_$(python_mn_version).done setup.py
+ifdef TEST_INSTALLED
+	@echo "Makefile: Skipping installation of package $(package_name) as editable because TEST_INSTALLED is set"
+	@echo "Makefile: Checking whether package $(package_name) is actually installed:"
+	$(PIP_CMD) $(pip_opts) show $(package_name)
+else
+ifeq ($(shell $(PIP_CMD) $(pip_opts) list -e --format freeze | grep "$(package_name)=="),)
+	# if package is not installed as editable
+	@echo "Makefile: Installing package $(package_name) as editable (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
+	-$(PIP_CMD) $(pip_opts) uninstall -y $(package_name)
+	-$(call RMDIR_FUNC,$(package_name).egg-info)
+	$(PIP_CMD) $(pip_opts) install -e .
+	@echo "Makefile: Done installing package $(package_name) as editable"
+endif
+endif
+	@echo "Makefile: Verifying installation of package $(package_name)"
+	$(PYTHON_CMD) -c "import $(package_name)"
+	@echo "Makefile: Done verifying installation of package $(package_name)"
 	@echo "Makefile: Target $@ done."
-
-develop_$(python_mn_version).done: pip_upgrade_$(python_mn_version).done install_$(python_mn_version).done install_basic_$(python_mn_version).done dev-requirements.txt
-	@echo "Makefile: Installing/upgrading development requirements (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
-	-$(call RM_FUNC,$@)
-	$(PIP_INSTALL_CMD) $(pip_level_opts) -r dev-requirements.txt
-	echo "done" >$@
-	@echo "Makefile: Done installing/upgrading development requirements"
 
 .PHONY: build
 build: $(bdist_file) $(sdist_file)
@@ -375,25 +396,24 @@ pylint: pylint_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: all
-all: install develop build builddoc check pylint test
+all: develop build builddoc check pylint test
 	@echo "Makefile: Target $@ done."
 
 .PHONY: clobber
 clobber: clean
 	@echo "Makefile: Removing everything for a fresh start"
 	-$(call RM_FUNC,*.done $(dist_files) $(dist_dir)/$(package_name)-$(package_version)*.egg $(package_name)/*cover)
-	-$(call RMDIR_FUNC,$(doc_build_dir) .tox $(coverage_html_dir))
+	-$(call RMDIR_FUNC,$(doc_build_dir) .tox $(coverage_html_dir) $(package_name).egg-info)
 	@echo "Makefile: Done removing everything for a fresh start"
 	@echo "Makefile: Target $@ done."
 
-# Also remove any build products that are dependent on the Python version
 .PHONY: clean
 clean:
 	@echo "Makefile: Removing temporary build products"
 	-$(call RM_R_FUNC,*.pyc)
 	-$(call RMDIR_R_FUNC,__pycache__)
 	-$(call RM_FUNC,MANIFEST parser.out .coverage $(package_name)/parser.out)
-	-$(call RMDIR_FUNC,build .cache $(package_name).egg-info .eggs)
+	-$(call RMDIR_FUNC,build .cache)
 	@echo "Makefile: Done removing temporary build products"
 	@echo "Makefile: Target $@ done."
 
@@ -467,7 +487,7 @@ MANIFEST.in: Makefile $(dist_included_files)
 ifeq ($(PLATFORM),Windows_native)
 	for %%f in ($(dist_included_files)) do (echo include %%f >>$@)
 else
-	echo "$(dist_included_files)" |xargs -n 1 echo include >>$@
+	echo "$(dist_included_files)" | xargs -n 1 echo include >>$@
 endif
 	@echo "Makefile: Done creating the manifest input file: $@"
 
@@ -479,7 +499,7 @@ endif
 $(bdist_file) $(sdist_file): _check_version setup.py MANIFEST.in $(dist_included_files)
 	@echo "Makefile: Creating the distribution archive files"
 	-$(call RM_FUNC,MANIFEST)
-	-$(call RMDIR_FUNC,build $(package_name).egg-info .eggs)
+	-$(call RMDIR_FUNC,build $(package_name).egg-info)
 	$(PYTHON_CMD) setup.py sdist -d $(dist_dir) bdist_wheel -d $(dist_dir) --universal
 	@echo "Makefile: Done creating the distribution archive files: $(bdist_file) $(sdist_file)"
 
