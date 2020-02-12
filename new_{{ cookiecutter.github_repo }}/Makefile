@@ -351,7 +351,7 @@ ifdef TEST_INSTALLED
 	$(PIP_CMD) $(pip_opts) show $(package_name)
 else
 ifeq ($(shell $(PIP_CMD) $(pip_opts) list --exclude-editable --format freeze | grep "$(package_name)=="),)
-  # if package is not installed as standalone
+# if package is not installed as standalone
 	@echo "Makefile: Installing package $(package_name) as standalone (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(PIP_CMD) $(pip_opts) uninstall -y $(package_name)
 	-$(call RMDIR_FUNC,$(package_name).egg-info)
@@ -372,7 +372,7 @@ ifdef TEST_INSTALLED
 	$(PIP_CMD) $(pip_opts) show $(package_name)
 else
 ifeq ($(shell $(PIP_CMD) $(pip_opts) list -e --format freeze | grep "$(package_name)=="),)
-	# if package is not installed as editable
+# if package is not installed as editable
 	@echo "Makefile: Installing package $(package_name) as editable (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(PIP_CMD) $(pip_opts) uninstall -y $(package_name)
 	-$(call RMDIR_FUNC,$(package_name).egg-info)
