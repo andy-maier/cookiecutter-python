@@ -55,4 +55,9 @@ flake8>=3.7.0
 twine>=1.8.1
 
 
-# Indirect dependencies are not specified in this file.
+# Indirect dependencies are not specified in this file unless constraints are needed.
+
+# PyYAML is pulled in by python-coveralls and PyYAML 5.3 has removed support for Python 3.4
+PyYAML>=5.1; python_version == '2.7'
+PyYAML>=5.1,<5.3; python_version == '3.4'
+PyYAML>=5.1; python_version > '3.4'
