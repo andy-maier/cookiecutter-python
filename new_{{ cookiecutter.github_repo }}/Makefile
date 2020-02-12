@@ -308,6 +308,12 @@ ifeq (,$(package_version))
 	$(error Package version could not be determined)
 endif
 
+.PHONY: _check_installed
+_check_installed:
+	@echo "Makefile: Verifying installation of package $(package_name)"
+	$(PYTHON_CMD) -c "import $(package_name)"
+	@echo "Makefile: Done verifying installation of package $(package_name)"
+
 pip_upgrade_$(python_mn_version).done: Makefile
 	@echo "Makefile: Installing/upgrading Pip (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
@@ -427,7 +433,7 @@ upload: _check_version $(dist_files)
 	@echo "Makefile: Target $@ done."
 
 .PHONY: html
-html: develop_$(python_mn_version).done $(doc_build_dir)/html/docs/index.html
+html: develop_reqs_$(python_mn_version).done $(doc_build_dir)/html/docs/index.html
 	@echo "Makefile: Target $@ done."
 
 $(doc_build_dir)/html/docs/index.html: Makefile $(doc_dependent_files)
@@ -437,7 +443,7 @@ $(doc_build_dir)/html/docs/index.html: Makefile $(doc_dependent_files)
 	@echo "Makefile: Done creating the documentation as HTML pages; top level file: $@"
 
 .PHONY: pdf
-pdf: develop_$(python_mn_version).done Makefile $(doc_dependent_files)
+pdf: develop_reqs_$(python_mn_version).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Creating the documentation as PDF file"
 	-$(call RM_FUNC,$@)
 	$(doc_cmd) -b latex $(doc_opts) $(doc_build_dir)/pdf
@@ -447,7 +453,7 @@ pdf: develop_$(python_mn_version).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Target $@ done."
 
 .PHONY: man
-man: develop_$(python_mn_version).done Makefile $(doc_dependent_files)
+man: develop_reqs_$(python_mn_version).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Creating the documentation as man pages"
 	-$(call RM_FUNC,$@)
 	$(doc_cmd) -b man $(doc_opts) $(doc_build_dir)/man
@@ -455,7 +461,7 @@ man: develop_$(python_mn_version).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Target $@ done."
 
 .PHONY: docchanges
-docchanges: develop_$(python_mn_version).done
+docchanges: develop_reqs_$(python_mn_version).done
 	@echo "Makefile: Creating the doc changes overview file"
 	$(doc_cmd) -b changes $(doc_opts) $(doc_build_dir)/changes
 	@echo
@@ -463,7 +469,7 @@ docchanges: develop_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: doclinkcheck
-doclinkcheck: develop_$(python_mn_version).done
+doclinkcheck: develop_reqs_$(python_mn_version).done
 	@echo "Makefile: Creating the doc link errors file"
 	$(doc_cmd) -b linkcheck $(doc_opts) $(doc_build_dir)/linkcheck
 	@echo
@@ -471,7 +477,7 @@ doclinkcheck: develop_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: doccoverage
-doccoverage: develop_$(python_mn_version).done
+doccoverage: develop_reqs_$(python_mn_version).done
 	@echo "Makefile: Creating the doc coverage results file"
 	$(doc_cmd) -b coverage $(doc_opts) $(doc_build_dir)/coverage
 	@echo "Makefile: Done creating the doc coverage results file: $(doc_build_dir)/coverage/python.txt"
@@ -514,7 +520,7 @@ $(bdist_file) $(sdist_file): _check_version setup.py MANIFEST.in $(dist_included
 # * 32 on usage error
 # Status 1 to 16 will be bit-ORed.
 # The make command checks for statuses: 1,2,32
-pylint_$(python_mn_version).done: develop_$(python_mn_version).done Makefile $(pylint_rc_file) $(py_src_files)
+pylint_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile $(pylint_rc_file) $(py_src_files)
 	@echo "Makefile: Running Pylint"
 	-$(call RM_FUNC,$@)
 	pylint --version
@@ -522,7 +528,7 @@ pylint_$(python_mn_version).done: develop_$(python_mn_version).done Makefile $(p
 	echo "done" >$@
 	@echo "Makefile: Done running Pylint"
 
-flake8_$(python_mn_version).done: develop_$(python_mn_version).done Makefile $(flake8_rc_file) $(py_src_files)
+flake8_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile $(flake8_rc_file) $(py_src_files)
 	@echo "Makefile: Running Flake8"
 	-$(call RM_FUNC,$@)
 	flake8 --version
@@ -530,7 +536,7 @@ flake8_$(python_mn_version).done: develop_$(python_mn_version).done Makefile $(f
 	echo "done" >$@
 	@echo "Makefile: Done running Flake8"
 
-safety_$(python_mn_version).done: develop_$(python_mn_version).done Makefile minimum-constraints.txt
+safety_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile minimum-constraints.txt
 	@echo "Makefile: Running pyup.io safety check"
 	-$(call RM_FUNC,$@)
 	-safety check -r minimum-constraints.txt --full-report
