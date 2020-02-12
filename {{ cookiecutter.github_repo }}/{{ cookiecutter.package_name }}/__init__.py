@@ -17,7 +17,7 @@ if _PY_M == 2 and _PY_N < 7:
     raise RuntimeError(
         "On Python 2, {{ cookiecutter.package_name }} requires "
         "Python 2.7")
-elif _PY_M == 3 and _PY_N < 5:
+elif _PY_M == 3 and _PY_N < 4:
     raise RuntimeError(
         "On Python 3, {{ cookiecutter.package_name }} requires "
-        "Python 3.5 or higher")
+        "Python 3.4 or higher")
