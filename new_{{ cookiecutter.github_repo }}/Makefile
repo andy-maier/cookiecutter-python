@@ -36,7 +36,7 @@ ifndef PIP_CMD
 endif
 
 # Pip options that are always to be used
-pip_opts := --disable-pip-version-check --no-python-version-warning
+pip_opts := --disable-pip-version-check
 
 # Package level
 ifndef PACKAGE_LEVEL
@@ -311,7 +311,7 @@ endif
 pip_upgrade_$(python_mn_version).done: Makefile
 	@echo "Makefile: Installing/upgrading Pip (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
-	$(PYTHON_CMD) -m pip $(pip_opts) install $(pip_level_opts) pip
+	$(PYTHON_CMD) -m pip install $(pip_level_opts) pip
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading Pip"
 
