@@ -2,63 +2,153 @@ Cookiecutter template for Python projects
 =========================================
 
 This is a template for the popular
-`cookiecutter <https://cookiecutter.readthedocs.io/en/latest/>`_ project.
+`cookiecutter <https://cookiecutter.readthedocs.io/en/latest/>`_ project
+for generating a Python project.
 
-The generated project is a Python project that supports:
+The generated Python project features the following:
 
-* Make - for encapsulating commands for the current active Python environment
-* Tox - for creating multiple virtual Python environments and testing therein
-* Testing on Travis CI & Appveyor CI
-* Building docs for deployment to RTD
-
+* Use of GitHub (github.com) as a repository. This only affects links generated
+  in the documentation and readme files and can easily be adjusted by you
+  to something else after creating the project.
+* Use of GNU Make for encapsulating the typical actions such as install,
+  test, etc. Each invocation of make operates in the currently active
+  Python environment that has previously been activated by the user.
+* Use of Tox for running make for checking and testing in a number of virtual
+  Python environments created by Tox.
+* Use of Travis CI (for Linux and MacOS) & Appveyor CI (for Windows and Cygwin)
+  for running make for checking and testing each push or pull request in a
+  subset of the complete set of Python environments.
+* Use of Sphinx for generating documentation for the Python package, that is
+  ready to be published on ReadTheDocs.
+* Use of coveralls for reporting and comparing test coverage.
+* Selection of the license to be used for the new project.
 
 Usage
 -----
 
-If you don't have cookiecutter installed, issue (ideally in a virtual Python
-environment):
+1.  If you don't have cookiecutter installed, install it (e.g. into your system
+    Python):
 
-.. code-block:: bash
+    .. code-block:: bash
 
-    $ pip install cookiecutter
+        $ pip install cookiecutter
 
-In the directory where you want the subdirectory for the new Python project to
-be created, issue:
+2.  In the directory where you want the subdirectory for the new Python project
+    to be created, issue:
 
-.. code-block:: bash
+    .. code-block:: bash
 
-    $ cookiecutter https://github.com/andy-maier/cookiecutter-python
+        $ cookiecutter https://github.com/andy-maier/cookiecutter-python
 
-You will be prompted for the following input variables:
+    You will be prompted for the following input parameters:
 
-* project_name: A project name for use in titles, docs, etc. May contain blanks
-  and mixed case.
-* short_description: A short (one-line) description of the project.
-* package_name: The name of the package on PyPI and of the Python package to
-  import. Should be lower case with no other special characters than
-  underscores.
-* package_version: Initial package version in M.N.P syntax (the project uses
-  semantic versioning).
-* github_org: Name of the GitHub organization that contains the project repo.
-* github_repo: Name of the GitHub repository within the GitHub organization
-* full_name: Full name of the author. Will be used as author and maintainer in
-  setup.py
-* email: Email address of the author. Will be used as author and maintainer
-  email in setup.py
-* pypi_username: Username to be used on PyPI. Is needed for badges on the
-  README page.
-* appveyor_username: Username to be used on PyPI. Is needed for badges on the
-  README page.
-* command_line_interface: Selection of command line packages that you want to
-  use.
-* open_source_license: Selection of license that you want to use.
+    * ``project_name`` - A project name for use in titles, docs, etc. May contain
+      blanks and mixed case.
+    * ``short_description`` - A short (one-line) description of the project.
+    * ``package_name`` - The name of the package on PyPI and of the Python
+      package to import. Should be lower case with no other special characters
+      than underscores.
+    * ``package_version`` - Initial package version in M.N.P syntax (the project
+      uses semantic versioning).
+    * ``github_org`` - Name of the GitHub organization that contains the project
+      repo.
+    * ``github_repo`` - Name of the GitHub repository within the GitHub
+      organization.
+    * ``full_name`` - Full name of the author. Will be used as author and
+      maintainer in setup.py.
+    * ``email`` - Email address of the author. Will be used as author and
+      maintainer email in setup.py.
+    * ``pypi_username`` - Username to be used on PyPI. Is needed for badges on
+      the README page.
+    * ``appveyor_username`` - Username to be used on PyPI. Is needed for badges
+      on the README page.
+    * ``command_line_interface`` - Selection of command line packages that you
+      want to use.
+    * ``open_source_license`` - Selection of license that you want to use.
 
-To see which targets the Makefile supports, issue in the new directory:
+    This creates the new project in a subdirectory named ``new_{github_repo}``.
 
-.. code-block:: bash
+    To see which targets the Makefile supports, issue in the new directory:
 
-    $ make help
+    .. code-block:: bash
 
+        $ make help
+
+3. To put that project on GitHub, the following steps represent a proven
+   practice. You may choose to do that differently, though.
+
+   The ``{x}`` notation is used to refer to the value of input parameter ``x``.
+
+   - On GitHub (https://github.com), create a new repository
+     ``{github_org}/{github_repo}``.
+
+   - On GitHub, change the settings of the new repo:
+     - In Branches:
+       - Protect branch "master".
+     - In Options:
+       - Disallow merge commits.
+       - Automatically delete head branches.
+
+   - Clone that repo to your workstation and go to its working directory:
+
+     .. code-block:: bash
+
+         $ git clone git@github.com:{github_org}/{github_repo}.git
+         $ cd {github_repo}
+
+   - Set user name and email in your local config of the cloned repo:
+
+     .. code-block:: bash
+
+         $ git config --local --add user.name {full_name}
+         $ git config --local --add user.email {email}
+
+   - Add, commit and push the generated cookiecutter project to the repo:
+
+     .. code-block:: bash
+
+         $ git checkout -b initial_project
+         $ mv -r ../new_{github_repo}/* .
+         $ git add --all
+         $ git commit -sm "Initial project as generated by cookiecutter"
+         $ git push --set-upstream origin initial_project
+
+   - On GitHub, create a pull request for the pushed branch ``initial_project``,
+     and merge it. Due to the auto-delete option, this deletes the branch
+     on GitHub.
+
+   - Update your work directory of the repo:
+
+     .. code-block:: bash
+
+         $ git checkout master
+         $ git pull
+         $ git branch -D initial_project origin/initial_project
+
+4.  To enable testing on Travis:
+
+    - Have or create a user on https://travis.com.
+    - Sync Travis with your Github repos, and enable the new repo.
+
+5.  To enable testing on Appveyor:
+
+    - Have or create a user on https://appveyor.com.
+    - Sync Appveyor with your Github repos, and enable the new repo.
+
+6.  To enable coverage reporting to Coveralls:
+
+    - Have or create a user on https://coveralls.io.
+    - Sync Coveralls with your Github repos, and enable the new repo.
+
+7.  To enable publishing the documentation to ReadTheDocs:
+
+    - Have or create a user on https://readthedocs.org.
+    - Sync ReadTheDocs with your Github repos, and enable the new repo.
+
+8.  To enable publishing the package on PyPI:
+
+    - Have or create a user on https://pypi.org.
+    - Create a package named ``package_name``.
 
 License
 -------
