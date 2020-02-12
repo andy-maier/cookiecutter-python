@@ -134,6 +134,13 @@ Usage
     - In the Appveyor Projects, add a new project and select the new GitHub
       repo for the new project.
 
+    - In the Appveyor Settings -> General for the new project, enable the
+      "Do not build on Push events" checkmark and save the settings.
+
+    - In the Appveyor Settings -> Badges page, copy the "SVG branchimage URL"
+      from the "master branch status badge" section and update the ``README.rst``
+      file in the new repo as indicated in that file (search for Appveyor).
+
 6.  To enable coverage reporting to Coveralls:
 
     - Have a user on Coveralls (https://coveralls.io), have it authorized
