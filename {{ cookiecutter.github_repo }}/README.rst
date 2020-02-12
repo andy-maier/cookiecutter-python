@@ -9,20 +9,20 @@
 .. #     :target: https://pypi.python.org/pypi/{{ cookiecutter.package_name }}/
 .. #     :alt: Pypi downloads
 
-.. image:: https://travis-ci.org/{{ cookiecutter.package_name }}/{{ cookiecutter.package_name }}.svg?branch=master
-    :target: https://travis-ci.org/{{ cookiecutter.package_name }}/{{ cookiecutter.package_name }}
+.. image:: https://travis-ci.org/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}.svg?branch=master
+    :target: https://travis-ci.org/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/branches
     :alt: Travis test status (master)
 
-.. image:: https://ci.appveyor.com/api/projects/status/i022iaeu3dao8j5x/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/{{ cookiecutter.appveyor_username }}/{{ cookiecutter.package_name }}
+.. image:: https://ci.appveyor.com/api/projects/status/..../branch/master?svg=true
+    :target: https://ci.appveyor.com/project/{{ cookiecutter.appveyor_username }}/{{ cookiecutter.github_repo }}/history
     :alt: Appveyor test status (master)
 
 .. image:: https://readthedocs.org/projects/{{ cookiecutter.package_name }}/badge/?version=latest
-    :target: https://{{ cookiecutter.package_name }}.readthedocs.io/en/latest/
+    :target: https://readthedocs.org/projects/{{ cookiecutter.package_name }}/builds/
     :alt: Docs build status (master)
 
-.. image:: https://img.shields.io/coveralls/{{ cookiecutter.package_name }}/{{ cookiecutter.package_name }}.svg
-    :target: https://coveralls.io/r/{{ cookiecutter.package_name }}/{{ cookiecutter.package_name }}
+.. image:: https://coveralls.io/repos/github/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/badge.svg?branch=master
+    :target: https://coveralls.io/github/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}?branch=master
     :alt: Test coverage (master)
 
 
