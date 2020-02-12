@@ -34,7 +34,7 @@ Pywbem is supported in these environments:
 * Operating Systems: Linux, Windows (native, and with UNIX-like environments),
   OS-X
 
-* Python: 2.7, 3.5, and higher
+* Python: 2.7, 3.4, and higher
 
 
 .. _`Installing`:
