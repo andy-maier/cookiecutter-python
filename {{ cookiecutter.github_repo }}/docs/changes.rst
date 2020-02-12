@@ -5,7 +5,7 @@ Change log
 ==========
 
 
-{{ cookiecutter.project_name }} 0.1.0
+{{ cookiecutter.package_name }} 0.1.0
 -------------------------------------
 
 Released: not yet
@@ -24,4 +24,4 @@ Released: not yet
 
 * See `list of open issues`_.
 
-.. _`list of open issues`: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}/issues
+.. _`list of open issues`: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/issues

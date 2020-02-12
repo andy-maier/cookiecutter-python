@@ -52,12 +52,12 @@ Installing
     - wheel
     - pip
 
-* Install the {{ cookiecutter.project_slug }} package and its prerequisite
+* Install the {{ cookiecutter.package_name }} package and its prerequisite
   Python packages into the active Python environment:
 
   .. code-block:: bash
 
-      $ pip install {{ cookiecutter.project_slug }}
+      $ pip install {{ cookiecutter.package_name }}
 
 
 .. _`Installing a different version`:
@@ -66,30 +66,30 @@ Installing a different version
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The examples in the previous sections install the latest version of
-{{ cookiecutter.project_slug }} that is released on `PyPI`_.
-This section describes how different versions of {{ cookiecutter.project_slug }}
+{{ cookiecutter.package_name }} that is released on `PyPI`_.
+This section describes how different versions of {{ cookiecutter.package_name }}
 can be installed.
 
-* To install an older released version of {{ cookiecutter.project_slug }},
+* To install an older released version of {{ cookiecutter.package_name }},
   Pip supports specifying a version requirement. The following example installs
-  {{ cookiecutter.project_slug }} version 0.1.0
+  {{ cookiecutter.package_name }} version 0.1.0
   from PyPI:
 
   .. code-block:: bash
 
-      $ pip install {{ cookiecutter.project_slug }}==0.1.0
+      $ pip install {{ cookiecutter.package_name }}==0.1.0
 
 * If you need to get a certain new functionality or a new fix that is
   not yet part of a version released to PyPI, Pip supports installation from a
-  Git repository. The following example installs {{ cookiecutter.project_slug }}
+  Git repository. The following example installs {{ cookiecutter.package_name }}
   from the current code level in the master branch of the
-  `{{ cookiecutter.project_slug }} Git repository`_:
+  `{{ cookiecutter.github_repo }} repository`_:
 
   .. code-block:: bash
 
-      $ pip install git+https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}.git@master#egg={{ cookiecutter.project_slug }}
+      $ pip install git+https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}.git@master#egg={{ cookiecutter.package_name }}
 
-.. _{{ cookiecutter.project_slug }} Git repository: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}
+.. _{{ cookiecutter.github_repo }} repository: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}
 
 .. _PyPI: https://pypi.python.org/pypi
 
@@ -99,13 +99,13 @@ can be installed.
 Verifying the installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can verify that {{ cookiecutter.project_slug }} is installed correctly by
+You can verify that {{ cookiecutter.package_name }} is installed correctly by
 importing the package into Python (using the Python environment you installed
 it to):
 
 .. code-block:: bash
 
-    $ python -c "import {{ cookiecutter.project_slug }}; print('ok')"
+    $ python -c "import {{ cookiecutter.package_name }}; print('ok')"
     ok
 
 In case of trouble with the installation, see the :ref:`Troubleshooting`
@@ -117,14 +117,14 @@ section.
 Package version
 ---------------
 
-The version of the {{ cookiecutter.project_slug }} package can be accessed by
-programs using the ``{{ cookiecutter.project_slug }}.__version__`` variable:
+The version of the {{ cookiecutter.package_name }} package can be accessed by
+programs using the ``{{ cookiecutter.package_name }}.__version__`` variable:
 
-.. autodata:: {{ cookiecutter.project_slug }}._version.__version__
+.. autodata:: {{ cookiecutter.package_name }}._version.__version__
 
 Note: For tooling reasons, the variable is shown as
-``{{ cookiecutter.project_slug }}._version.__version__``, but it should be used as
-``{{ cookiecutter.project_slug }}.__version__``.
+``{{ cookiecutter.package_name }}._version.__version__``, but it should be used as
+``{{ cookiecutter.package_name }}.__version__``.
 
 
 .. _`Compatibility and deprecation policy`:
@@ -146,7 +146,7 @@ version 'M.N.P').
 
 Thus, a user of an API or command of the {{ cookiecutter.project_name }} project
 can safely upgrade to a new minor or patch version of the
-{{ cookiecutter.project_slug }} package without encountering compatibility
+{{ cookiecutter.package_name }} package without encountering compatibility
 issues for their code using the APIs or for their scripts using the commands.
 
 In the rare case that exceptions from this rule are needed, they will be
