@@ -144,7 +144,7 @@ else
   coverage_report :=
 endif
 
-# Directory for coverage html output. Must be in sync with the one in coveragerc.
+# Directory for coverage html output. Must be in sync with the one in .coveragerc.
 coverage_html_dir := coverage_html
 
 # Package version (full version, including any pre-release suffixes, e.g. "0.1.0.dev1").
@@ -552,7 +552,7 @@ endif
 .PHONY: test
 test: $(test_deps)
 	@echo "Makefile: Running unit tests"
-	py.test --color=yes --cov $(package_name) $(coverage_report) --cov-config coveragerc $(pytest_warning_opts) $(pytest_opts) tests/unittest tests/functiontest -s
+	py.test --color=yes --cov $(package_name) $(coverage_report) --cov-config .coveragerc $(pytest_warning_opts) $(pytest_opts) tests/unittest tests/functiontest -s
 	@echo "Makefile: Done running unit tests"
 
 .PHONY: end2end
