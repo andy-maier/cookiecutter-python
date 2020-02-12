@@ -13,7 +13,10 @@
     :target: https://travis-ci.org/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/branches
     :alt: Travis test status (master)
 
-.. image:: https://ci.appveyor.com/api/projects/status/..../branch/master?svg=true
+.. # Update the URL in the Appveyor image link below to match the
+.. # "SVG branchimage URL" from the "master branch status badge" section on
+.. # the Settings -> Badges page of the project on Appveyor.
+.. image:: https://ci.appveyor.com/api/projects/status/UPDATE-THIS/branch/master?svg=true
     :target: https://ci.appveyor.com/project/{{ cookiecutter.appveyor_username }}/{{ cookiecutter.github_repo }}/history
     :alt: Appveyor test status (master)
 
