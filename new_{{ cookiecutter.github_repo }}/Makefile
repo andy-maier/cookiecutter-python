@@ -546,7 +546,7 @@ safety_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefil
 ifdef TEST_INSTALLED
   test_deps =
 else
-  test_deps = develop_$(python_mn_version).done
+  test_deps = develop
 endif
 
 .PHONY: test
@@ -556,7 +556,7 @@ test: $(test_deps)
 	@echo "Makefile: Done running unit tests"
 
 .PHONY: end2end
-end2end: develop_$(python_mn_version).done
+end2end: $(test_deps)
 	@echo "Makefile: Running end2end tests"
 	py.test --color=yes $(pytest_end2end_warning_opts) $(pytest_end2end_opts) tests/end2endtest -s
 	@echo "Makefile: Done running end2end tests"
