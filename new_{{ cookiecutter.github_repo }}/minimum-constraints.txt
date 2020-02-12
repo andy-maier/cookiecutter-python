@@ -63,6 +63,9 @@ wheel==0.33.6; python_version >= '3.8'
 
 # funcsigs; is covered in direct deps for develop, from mock
 
+# PyYAML is pulled in by python-coveralls
+PyYAML==5.1
+
 
 # Direct dependencies for development (must be consistent with dev-requirements.txt)
 
