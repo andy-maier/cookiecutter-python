@@ -55,7 +55,7 @@ install_requires = [req for req in requirements
                     if req and not re.match(r'[^:]+://', req)]
 dependency_links = [req for req in requirements
                     if req and re.match(r'[^:]+://', req)]
-package_version = get_version(os.path.join('{{ cookiecutter.project_slug }}', '_version.py'))
+package_version = get_version(os.path.join('{{ cookiecutter.package_name }}', '_version.py'))
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
@@ -71,10 +71,10 @@ package_version = get_version(os.path.join('{{ cookiecutter.project_slug }}', '_
 # * https://setuptools.readthedocs.io/en/latest/setuptools.html#
 #   new-and-changed-setup-keywords
 setuptools.setup(
-    name='{{ cookiecutter.project_slug }}',
+    name='{{ cookiecutter.package_name }}',
     version=package_version,
     packages=[
-        '{{ cookiecutter.project_slug }}',
+        '{{ cookiecutter.package_name }}',
     ],
     include_package_data=True,  # as specified in MANIFEST.in
     scripts=[
@@ -83,7 +83,7 @@ setuptools.setup(
     install_requires=install_requires,
     dependency_links=dependency_links,
 
-    description="{{ cookiecutter.project_short_description }}",
+    description="{{ cookiecutter.short_description }}",
     long_description=read_file('README.rst'),
     long_description_content_type='text/x-rst',
 {%- if cookiecutter.open_source_license in license_classifiers %}
@@ -93,16 +93,16 @@ setuptools.setup(
     author_email='{{ cookiecutter.email }}',
     maintainer="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     maintainer_email='{{ cookiecutter.email }}',
-    url='https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}',
+    url='https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}',
     project_urls={
-        'Bug Tracker': 'https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}/issues',
-        'Documentation': 'https://{{ cookiecutter.project_slug }}.readthedocs.io/en/latest/',
-        'Source Code': 'https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}',
+        'Bug Tracker': 'https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/issues',
+        'Documentation': 'https://{{ cookiecutter.package_name }}.readthedocs.io/en/latest/',
+        'Source Code': 'https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}',
     },
     {%- if cookiecutter.command_line_interface != 'None' %}
     entry_points={
         'console_scripts': [
-            '{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main',
+            '{{ cookiecutter.package_name }}={{ cookiecutter.package_name }}.cli:main',
         ],
     },
     {%- endif %}
@@ -111,7 +111,7 @@ setuptools.setup(
     zip_safe=True,  # This package can safely be installed from a zip file
     platforms='any',
 
-    # Keep these Python versions in sync with {{ cookiecutter.project_slug }}/__init__.py
+    # Keep these Python versions in sync with {{ cookiecutter.package_name }}/__init__.py
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',

@@ -132,7 +132,7 @@ endif
 project_name := {{ cookiecutter.project_name }}
 
 # Name of this Python package
-package_name := {{ cookiecutter.project_slug }}
+package_name := {{ cookiecutter.package_name }}
 
 # Determine if coverage details report generated
 # The variable can be passed in as either an environment variable or

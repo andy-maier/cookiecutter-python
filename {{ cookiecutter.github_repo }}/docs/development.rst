@@ -16,7 +16,7 @@ Repository
 
 The repository for the {{ cookiecutter.project_name }} project is on GitHub:
 
-https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}
+https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}
 
 
 .. _`Setting up the development environment`:
@@ -29,8 +29,8 @@ Setting up the development environment
 
    .. code-block:: bash
 
-        $ git clone git@github.com:{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}.git
-        $ cd {{ cookiecutter.project_slug }}
+        $ git clone git@github.com:{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}.git
+        $ cd {{ cookiecutter.github_repo }}
 
    If you do not have write access, create a fork on GitHub and clone the
    fork in the way shown above.
@@ -65,7 +65,7 @@ Building the documentation
 --------------------------
 
 The ReadTheDocs (RTD) site is used to publish the documentation for the
-project package at https://{{ cookiecutter.project_slug }}.readthedocs.io/
+project package at https://{{ cookiecutter.package_name }}.readthedocs.io/
 
 This page is automatically updated whenever the Git repo for this package
 changes the branch from which this documentation is built.
@@ -90,9 +90,10 @@ Testing
 
 
 All of the following `make` commands run the tests in the currently active
-Python environment. Depending on how the `{{ cookiecutter.project_slug }}`
-package is installed in that Python environment, either the directories in the
-main repository directory are used, or the installed package.
+Python environment.
+Depending on how the `{{ cookiecutter.package_name }}` package is installed in
+that Python environment, either the directories in the main repository
+directory are used, or the installed package.
 The test case files and any utility functions they use are always used from
 the `tests` directory in the main repository directory.
 
@@ -262,7 +263,7 @@ Their upstream repos are assumed to have the remote name ``origin``.
 
     .. code-block:: bash
 
-        $ vi {{ cookiecutter.project_slug }}/_version.py
+        $ vi {{ cookiecutter.package_name }}/_version.py
 
     and set the version to be released:
 
@@ -404,7 +405,7 @@ Their upstream repos are assumed to have the remote name ``origin``.
     **Attention!!** This only works once. You cannot re-release the same
     version to PyPI.
 
-    Verify that it arrived on PyPI: https://pypi.python.org/pypi/{{ cookiecutter.project_slug }}/
+    Verify that it arrived on PyPI: https://pypi.python.org/pypi/{{ cookiecutter.package_name }}/
 
 Starting a new version
 ----------------------
@@ -454,7 +455,7 @@ It covers all variants of new versions:
 
     .. code-block:: bash
 
-        $ vi {{ cookiecutter.project_slug }}/_version.py
+        $ vi {{ cookiecutter.package_name }}/_version.py
 
     and set the version to the new development version:
 
@@ -474,10 +475,10 @@ It covers all variants of new versions:
 
     .. code-block:: text
 
-        {{ cookiecutter.project_slug }} 0.2.0.dev1
+        {{ cookiecutter.package_name }} 0.2.0.dev1
         ------------------------------------------
 
-        This version contains all fixes up to {{ cookiecutter.project_slug }} 0.1.x.
+        This version contains all fixes up to {{ cookiecutter.package_name }} 0.1.x.
 
         Released: not yet
 
@@ -495,7 +496,7 @@ It covers all variants of new versions:
 
         * See `list of open issues`_.
 
-        .. _`list of open issues`: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }}/issues
+        .. _`list of open issues`: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/issues
 
 6.  Commit the changes and push to upstream:
 
