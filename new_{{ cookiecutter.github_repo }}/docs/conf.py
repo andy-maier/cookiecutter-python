@@ -70,7 +70,6 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',   # disabed, raises anexception
     'sphinx.ext.ifconfig',
-    'sphinx_git',            # requires 'sphinx-git' Python package
 ]
 
 # Add any paths that contain templates here, relative to this directory.
