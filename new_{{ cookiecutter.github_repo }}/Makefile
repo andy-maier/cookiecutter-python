@@ -99,9 +99,13 @@ ifeq ($(OS),Windows_NT)
     endif
     .SHELLFLAGS := /c
   endif
+  # Note: On native Windows with Python 3.8, Pip fails with "ERROR: To modify
+  # pip ...", even when the package does not require Pip (e.g. for six).
+  PIP_CMD_MOD := $(PYTHON_CMD) -m pip
 else
   # Values: Linux, Darwin
   PLATFORM := $(shell uname -s)
+  PIP_CMD_MOD := $(PIP_CMD)
 endif
 
 ifeq ($(PLATFORM),Windows_native)
@@ -289,6 +293,7 @@ platform:
 	@echo "Python bit size: $(python_bitsize)"
 	@echo "Pip command name: $(PIP_CMD)"
 	@echo "Pip command location: $(shell $(WHICH) $(PIP_CMD))"
+	@echo "Pip command for modifications: $(PIP_CMD_MOD)"
 	@echo "Package $(package_name) version: $(package_version)"
 	@echo "Package $(package_name) installation: $(shell $(PIP_CMD) $(pip_opts) show $(package_name) | grep Location)"
 
@@ -317,7 +322,7 @@ _check_installed:
 pip_upgrade_$(python_mn_version).done: Makefile
 	@echo "Makefile: Installing/upgrading Pip (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
-	$(PYTHON_CMD) -m pip install $(pip_level_opts) pip
+	$(PYTHON_CMD) -m pip $(pip_opts) install $(pip_level_opts) pip
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading Pip"
 
@@ -325,21 +330,21 @@ install_basic_$(python_mn_version).done: Makefile pip_upgrade_$(python_mn_versio
 	@echo "Makefile: Installing/upgrading basic Python packages (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PYTHON_CMD) tools/remove_duplicate_setuptools.py
-	$(PIP_CMD) $(pip_opts) install $(pip_level_opts) setuptools wheel
+	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) setuptools wheel
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading basic Python packages"
 
 install_reqs_$(python_mn_version).done: Makefile install_basic_$(python_mn_version).done requirements.txt
 	@echo "Makefile: Installing Python installation prerequisites (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
-	$(PIP_CMD) $(pip_opts) install $(pip_level_opts) -r requirements.txt
+	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) -r requirements.txt
 	echo "done" >$@
 	@echo "Makefile: Done installing Python installation prerequisites"
 
 develop_reqs_$(python_mn_version).done: install_basic_$(python_mn_version).done dev-requirements.txt
 	@echo "Makefile: Installing development requirements (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
-	$(PIP_CMD) $(pip_opts) install $(pip_level_opts) -r dev-requirements.txt
+	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) -r dev-requirements.txt
 	echo "done" >$@
 	@echo "Makefile: Done installing development requirements"
 
@@ -353,9 +358,9 @@ else
 ifeq ($(shell $(PIP_CMD) $(pip_opts) list --exclude-editable --format freeze | grep "$(package_name)=="),)
 # if package is not installed as standalone
 	@echo "Makefile: Installing package $(package_name) as standalone (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
-	-$(PIP_CMD) $(pip_opts) uninstall -y $(package_name)
+	-$(PIP_CMD_MOD) $(pip_opts) uninstall -y $(package_name)
 	-$(call RMDIR_FUNC,$(package_name).egg-info)
-	$(PIP_CMD) $(pip_opts) install .
+	$(PIP_CMD_MOD) $(pip_opts) install .
 	@echo "Makefile: Done installing package $(package_name) as standalone"
 endif
 endif
@@ -374,9 +379,9 @@ else
 ifeq ($(shell $(PIP_CMD) $(pip_opts) list -e --format freeze | grep "$(package_name)=="),)
 # if package is not installed as editable
 	@echo "Makefile: Installing package $(package_name) as editable (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
-	-$(PIP_CMD) $(pip_opts) uninstall -y $(package_name)
+	-$(PIP_CMD_MOD) $(pip_opts) uninstall -y $(package_name)
 	-$(call RMDIR_FUNC,$(package_name).egg-info)
-	$(PIP_CMD) $(pip_opts) install -e .
+	$(PIP_CMD_MOD) $(pip_opts) install -e .
 	@echo "Makefile: Done installing package $(package_name) as editable"
 endif
 endif
