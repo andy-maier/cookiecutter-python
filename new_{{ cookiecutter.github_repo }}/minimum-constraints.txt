@@ -95,9 +95,11 @@ sphinxcontrib-fulltoc>=1.2.0
 
 # PyLint (no imports, invoked via pylint script) - does not support py3:
 pylint==1.6.4; python_version == '2.7'
-pylint==2.2.2; python_version >= '3.4'
+pylint==2.2.2; python_version == '3.4'
+pylint==2.4.4; python_version >= '3.5'
 astroid==1.4.9; python_version == '2.7'
-astroid==2.1.0; python_version >= '3.4'
+astroid==2.1.0; python_version == '3.4'
+astroid==2.3.3; python_version >= '3.5'
 
 # Flake8 and dependents (no imports, invoked via flake8 script):
 flake8==3.7.0

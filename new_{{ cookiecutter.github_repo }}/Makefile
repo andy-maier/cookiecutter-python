@@ -509,22 +509,11 @@ $(bdist_file) $(sdist_file): _check_version setup.py MANIFEST.in $(dist_included
 	$(PYTHON_CMD) setup.py sdist -d $(dist_dir) bdist_wheel -d $(dist_dir) --universal
 	@echo "Makefile: Done creating the distribution archive files: $(bdist_file) $(sdist_file)"
 
-# TODO: Once pylint has no more errors, remove the dash "-"
-# PyLint status codes:
-# * 0 if everything went fine
-# * 1 if fatal messages issued
-# * 2 if error messages issued
-# * 4 if warning messages issued
-# * 8 if refactor messages issued
-# * 16 if convention messages issued
-# * 32 on usage error
-# Status 1 to 16 will be bit-ORed.
-# The make command checks for statuses: 1,2,32
 pylint_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile $(pylint_rc_file) $(py_src_files)
 	@echo "Makefile: Running Pylint"
 	-$(call RM_FUNC,$@)
 	pylint --version
-	-pylint --rcfile=$(pylint_rc_file) $(py_src_files)
+	pylint --rcfile=$(pylint_rc_file) $(py_src_files)
 	echo "done" >$@
 	@echo "Makefile: Done running Pylint"
 
