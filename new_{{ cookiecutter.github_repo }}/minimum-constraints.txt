@@ -72,6 +72,8 @@ PyYAML==5.1
 # Unit test (imports into testcases):
 pytest==4.3.1
 testfixtures==6.9.0
+colorama==0.3.9; python_version <= '3.4'
+colorama==0.4.0; python_version >= '3.5'
 
 # Coverage reporting (no imports, invoked via coveralls script):
 python-coveralls==2.9.2
