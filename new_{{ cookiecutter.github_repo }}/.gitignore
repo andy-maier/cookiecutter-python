@@ -9,6 +9,7 @@
 /*.egg-info/
 /build/
 /build_doc/
+/dist/
 /try/
 .ipynb_checkpoints/
 /*.done
