@@ -20,6 +20,7 @@ testfixtures>=6.9.0
 # colorama 0.4.0 removed support for Python 3.4
 colorama>=0.3.9,<0.4.0; python_version <= '3.4'
 colorama>=0.4.0; python_version >= '3.5'
+pluggy>=0.13.0
 
 # Coverage reporting (no imports, invoked via coveralls script):
 # coverage 5.0 has removed support for py34
