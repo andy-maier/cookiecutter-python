@@ -133,7 +133,7 @@ class test(PytestCommand):
     description = "{{ cookiecutter.project_name }}: Run unit tests using pytest"
     my_test_dirs = ['tests/unittest']
 
-
+{% if cookiecutter.end2end_test == "Yes" %}
 class end2endtest(PytestCommand):
     # pylint: disable=invalid-name
     """
@@ -148,7 +148,7 @@ class end2endtest(PytestCommand):
             '-v', '--tb=short',
         ])
 
-
+{% endif %}
 # pylint: disable=invalid-name
 requirements = get_requirements('requirements.txt')
 install_requires = [req for req in requirements

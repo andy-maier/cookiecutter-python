@@ -227,11 +227,9 @@ ifeq ($(python_m_version),3)
 else
   pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning
 endif
-
 {% if cookiecutter.end2end_test == "Yes" %}
 pytest_end2end_opts := -v --tb=short $(pytest_opts)
 pytest_end2end_warning_opts := $(pytest_warning_opts)
-
 {% endif %}
 # Files to be put into distribution archive.
 # This is also used for 'include' statements in MANIFEST.in.
@@ -577,7 +575,6 @@ test: $(test_deps)
 	@echo "Makefile: Running unit tests"
 	py.test --color=yes --cov $(package_name) $(coverage_report) --cov-config .coveragerc $(pytest_warning_opts) $(pytest_opts) $(test_dir)/unittest -s
 	@echo "Makefile: Done running unit tests"
-
 {% if cookiecutter.install_test == "Yes" %}
 .PHONY: installtest
 installtest: $(bdist_file) $(sdist_file) $(test_dir)/installtest/test_install.sh
@@ -588,7 +585,6 @@ else
 	$(test_dir)/installtest/test_install.sh $(bdist_file) $(sdist_file)
 endif
 	@echo "Makefile: Done running install tests"
-
 {% endif %}
 {% if cookiecutter.end2end_test == "Yes" %}
 .PHONY: end2endtest
