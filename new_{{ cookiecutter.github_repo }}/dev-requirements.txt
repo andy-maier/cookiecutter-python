@@ -11,7 +11,6 @@
 
 # Direct dependencies:
 
-
 # Coverage reporting (no imports, invoked via coveralls script):
 # coverage 5.0 has removed support for py34
 coverage>=4.5.2,<5.0
@@ -103,6 +102,20 @@ nbconvert>=5.0.0; python_version != '3.4' or sys_platform != 'win32'
 nbformat>=4.2.0; python_version != '3.4' or sys_platform != 'win32'
 notebook>=4.3.1; python_version != '3.4' or sys_platform != 'win32'
 
+# Performance profiling tools
+pyinstrument>=3.0.1
+
+
+# Indirect dependencies with special constraints:
+
+# pytz (used by TBD)
+pytz>=2016.10
+
+# colorama (used by TBD)
+# colorama 0.4.0 removed support for Python 3.4
+colorama>=0.3.9,<0.4.0; python_version <= '3.4'
+colorama>=0.4.0; python_version >= '3.5'
+
 # Pywin32 is used (at least?) by jupyter.
 # Pywin32 version 226 needs to be excluded, see issue #1946.
 # Pywin32 version 222 is inconsistent in its 32-bit/64-bit support on py37
@@ -127,14 +140,7 @@ pywin32>=223,!=226; sys_platform == 'win32' and python_version == '3.7'
 # The following is a circumvention of this issue that nails the tornado
 # version to below 5.0 on Python 2.
 # TODO: Follow up on resolution of this issue.
-tornado<5.0; python_version <= '2.7'
+tornado>=4.0,<5.0; python_version <= '2.7'
+tornado>=5.0; python_version >= '3.5'
 
-# Table output formatter used by the manual performance tests to display
-# timing results
-tabulate >= 0.8.3
-
-# Performance profiling tools
-pyinstrument >=3.0.1
-
-
-# Indirect dependencies are not specified in this file unless constraints are needed.
+# Additional indirect dependencies are not specified in this file.
