@@ -228,11 +228,11 @@ else
   pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning
 endif
 
-{%- if cookiecutter.end2end_test == "Yes" %}
+{% if cookiecutter.end2end_test == "Yes" %}
 pytest_end2end_opts := -v --tb=short $(pytest_opts)
 pytest_end2end_warning_opts := $(pytest_warning_opts)
 
-{%- endif %}
+{% endif %}
 # Files to be put into distribution archive.
 # This is also used for 'include' statements in MANIFEST.in.
 # Wildcards can be used directly (i.e. without wildcard function).
@@ -422,7 +422,7 @@ pylint: pylint_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: all
-all: develop build builddoc check pylint {%- if cookiecutter.install_test == "Yes" %}installtest {%- endif %}test
+all: develop build builddoc check pylint {% if cookiecutter.install_test == "Yes" %}installtest {% endif %}test
 	@echo "Makefile: Target $@ done."
 
 .PHONY: clobber
@@ -578,7 +578,7 @@ test: $(test_deps)
 	py.test --color=yes --cov $(package_name) $(coverage_report) --cov-config .coveragerc $(pytest_warning_opts) $(pytest_opts) $(test_dir)/unittest -s
 	@echo "Makefile: Done running unit tests"
 
-{%- if cookiecutter.install_test == "Yes" %}
+{% if cookiecutter.install_test == "Yes" %}
 .PHONY: installtest
 installtest: $(bdist_file) $(sdist_file) $(test_dir)/installtest/test_install.sh
 	@echo "Makefile: Running install tests"
@@ -589,12 +589,11 @@ else
 endif
 	@echo "Makefile: Done running install tests"
 
-{%- endif %}
-{%- if cookiecutter.end2end_test == "Yes" %}
+{% endif %}
+{% if cookiecutter.end2end_test == "Yes" %}
 .PHONY: end2endtest
 end2endtest: $(test_deps)
 	@echo "Makefile: Running end2end tests"
 	py.test --color=yes $(pytest_end2end_warning_opts) $(pytest_end2end_opts) $(test_dir)/end2endtest -s
 	@echo "Makefile: Done running end2end tests"
-
-{%- endif %}
+{% endif %}

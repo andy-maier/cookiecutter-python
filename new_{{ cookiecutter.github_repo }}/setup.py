@@ -207,13 +207,13 @@ setuptools.setup(
         'Documentation': 'https://{{ cookiecutter.package_name }}.readthedocs.io/en/latest/',
         'Source Code': 'https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}',
     },
-    {%- if cookiecutter.command_line_interface != 'None' %}
+{%- if cookiecutter.command_line_interface != 'None' %}
     entry_points={
         'console_scripts': [
             '{{ cookiecutter.package_name }}={{ cookiecutter.package_name }}.cli:main',
         ],
     },
-    {%- endif %}
+{%- endif %}
 
     options={'bdist_wheel': {'universal': True}},
     zip_safe=True,  # This package can safely be installed from a zip file
@@ -225,9 +225,9 @@ setuptools.setup(
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',
         'Intended Audience :: Developers',
-        {%- if cookiecutter.open_source_license in license_classifiers %}
+{%- if cookiecutter.open_source_license in license_classifiers %}
         '{{ license_classifiers[cookiecutter.open_source_license] }}',
-        {%- endif %}
+{%- endif %}
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
