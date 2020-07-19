@@ -189,7 +189,9 @@ setuptools.setup(
     },
     cmdclass={
         'test': test,
+{%- if cookiecutter.end2end_test == "Yes" %}
         'end2endtest': end2endtest,
+{%- endif %}
     },
     description="{{ cookiecutter.short_description }}",
     long_description=read_file('README.rst'),
