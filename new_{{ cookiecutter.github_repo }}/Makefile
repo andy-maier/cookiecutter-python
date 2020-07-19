@@ -228,12 +228,14 @@ endif
 
 # Files to be put into distribution archive.
 # This is also used for 'include' statements in MANIFEST.in.
+# Wildcards can be used directly (i.e. without wildcard function).
 dist_included_files := \
     LICENSE \
     README.rst \
     INSTALL.md \
-    $(wildcard *.py) \
-    $(wildcard $(package_name)/*.py) \
+    requirements.txt \
+    setup.py \
+    $(package_name)/*.py \
 
 .PHONY: help
 help:
@@ -246,6 +248,7 @@ help:
 	@echo "  builddoc   - Build documentation in: $(doc_build_dir)"
 	@echo "  check      - Run Flake8 on Python sources"
 	@echo "  pylint     - Run PyLint on Python sources"
+	@echo "  installtest - Run install tests"
 	@echo "  test       - Run unit tests"
 	@echo "  all        - Do all of the above"
 	@echo "  install    - Install $(package_name) as standalone and its dependent packages"
@@ -391,7 +394,7 @@ endif
 	@echo "Makefile: Target $@ done."
 
 .PHONY: build
-build: $(bdist_file) $(sdist_file)
+build: _check_version $(bdist_file) $(sdist_file)
 	@echo "Makefile: Target $@ done."
 
 .PHONY: builddoc
@@ -407,7 +410,7 @@ pylint: pylint_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: all
-all: develop build builddoc check pylint test
+all: develop build builddoc check pylint installtest test
 	@echo "Makefile: Target $@ done."
 
 .PHONY: clobber
@@ -507,7 +510,7 @@ endif
 # regenerate MANIFEST. Otherwise, changes in MANIFEST.in will not be used.
 # Note: Deleting build is a safeguard against picking up partial build products
 # which can lead to incorrect hashbangs in scripts in wheel archives.
-$(bdist_file) $(sdist_file): _check_version setup.py MANIFEST.in $(dist_included_files)
+$(bdist_file) $(sdist_file): setup.py MANIFEST.in $(dist_included_files)
 	@echo "Makefile: Creating the distribution archive files"
 	-$(call RM_FUNC,MANIFEST)
 	-$(call RMDIR_FUNC,build $(package_name).egg-info)
@@ -548,6 +551,16 @@ test: $(test_deps)
 	@echo "Makefile: Running unit tests"
 	py.test --color=yes --cov $(package_name) $(coverage_report) --cov-config .coveragerc $(pytest_warning_opts) $(pytest_opts) tests/unittest -s
 	@echo "Makefile: Done running unit tests"
+
+.PHONY: installtest
+installtest: $(bdist_file) $(sdist_file) tests/installtest/test_install.sh
+	@echo "Makefile: Running install tests"
+ifeq ($(PLATFORM),Windows_native)
+	@echo "Makefile: Warning: Skipping install test on native Windows" >&2
+else
+	tests/installtest/test_install.sh $(bdist_file) $(sdist_file)
+endif
+	@echo "Makefile: Done running install tests"
 
 .PHONY: end2end
 end2end: $(test_deps)
