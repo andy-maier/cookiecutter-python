@@ -133,17 +133,21 @@ install:
   - dir C:\
 
   - git --version
-  - if %APPVEYOR_REPO_BRANCH%.==manual-ci-run. set _NEED_REBASE=true
-  # This Git version requires user configuration in rebase step
-  - if %_NEED_REBASE%.==true. git config user.name "dummy"
-  - if %_NEED_REBASE%.==true. git config user.email "dummy@dummy"
-  - if %_NEED_REBASE%.==true. git fetch origin master
-  - if %_NEED_REBASE%.==true. git branch master FETCH_HEAD
-  - if %_NEED_REBASE%.==true. git rebase master
-  - git branch -av
 
+  # Even though push runs are disabled in our Appveyor config, we manually
+  # rebase the 'manual-ci-*' branches on the target branch of their PR, for
+  # consistency with the Travis setup.
+  - echo APPVEYOR_REPO_BRANCH=%APPVEYOR_REPO_BRANCH%
+  - echo APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH=%APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
+  - if %APPVEYOR_REPO_BRANCH%.==manual-ci-run. (
+      echo Rebasing to master &
+      git fetch origin master &
+      git branch master FETCH_HEAD &
+      git rebase master )
+  - git log HEAD~~~~..HEAD --oneline --decorate
   - if %APPVEYOR_REPO_BRANCH%.==manual-ci-run. set _MANUAL_CI_RUN=true
   - if %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%.==manual-ci-run. set _MANUAL_CI_RUN=true
+  - echo _MANUAL_CI_RUN=%_MANUAL_CI_RUN%
 
   # Set PACKAGE_LEVEL for make
   - set PACKAGE_LEVEL=%configuration%

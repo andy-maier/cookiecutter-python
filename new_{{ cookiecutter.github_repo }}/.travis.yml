@@ -154,20 +154,29 @@ matrix:
 #        - PACKAGE_LEVEL=latest
 
 before_install:
-  - if [[ "$TRAVIS_BRANCH" == "manual-ci-run" ]]; then
-      export _NEED_REBASE=true;
-    fi
-  - if [[ -n $_NEED_REBASE ]]; then git fetch origin master; fi
-  - if [[ -n $_NEED_REBASE ]]; then git branch master FETCH_HEAD; fi
-  - if [[ -n $_NEED_REBASE ]]; then git rebase master; fi
-  - git branch -av
-  - git tag
 
-# commands to install dependencies
-install:
+  - git --version
+
+  # There is a regularly scheduled run in Travis for the "manual-ci-run" branch,
+  # which is based on master and has all Travis environments enabled.
+  # We want it to automatically use the latest master branch level, so we
+  # manually rebase the checked out branch on the master branch.
+  - echo TRAVIS_BRANCH=$TRAVIS_BRANCH
+  - echo TRAVIS_PULL_REQUEST_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
+  - if [[ "$TRAVIS_BRANCH" == "manual-ci-run" ]]; then
+      echo Rebasing to master;
+      git fetch origin master;
+      git branch master FETCH_HEAD;
+      git rebase master;
+    fi
+  - git log HEAD~~~~..HEAD --oneline --decorate
   - if [[ "$TRAVIS_BRANCH" == "manual-ci-run" || "$TRAVIS_PULL_REQUEST_BRANCH" == "manual-ci-run" ]]; then
       export _MANUAL_CI_RUN=true;
     fi
+  - echo _MANUAL_CI_RUN=$_MANUAL_CI_RUN
+
+# commands to install dependencies
+install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       if [[ "${PYTHON:0:1}" == "2" ]]; then
         export PYTHON_CMD=python2;
