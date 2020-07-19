@@ -229,10 +229,13 @@ alabaster==0.7.9
 appnope==0.1.0
 args==0.1.0
 Babel==2.3.4
+backports-abc==0.5
 backports.functools-lru-cache==1.5; python_version < "3.3"
+backports.shutil-get-terminal-size==1.0.0
+backports.ssl-match-hostname==3.5.0.1
 bleach==2.1.4
 certifi==2019.9.11
-chardet==3.0.2
+chardet==3.0.3
 clint==0.5.1
 configparser==4.0.2
 contextlib2==0.6.0
@@ -266,6 +269,7 @@ ply==3.10
 prompt-toolkit==2.0.1
 ptyprocess==0.5.1
 py==1.5.1
+python-dateutil==2.6.0
 pyzmq==16.0.4
 qtconsole==4.2.1
 scandir==1.9.0
@@ -278,8 +282,10 @@ terminado==0.6
 testpath==0.3
 toml==0.10.0
 tornado==4.4.2
+tqdm==4.11.2
 traceback2==1.4.0
 traitlets==4.3.1
+typing==3.6.1
 urllib3==1.23
 wcwidth==0.1.7
 webencodings==0.5.1
