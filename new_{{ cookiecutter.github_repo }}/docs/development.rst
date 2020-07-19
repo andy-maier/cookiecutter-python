@@ -132,7 +132,7 @@ There are multiple types of tests:
 
    Options for pytest can be passed using the ``--pytest-options`` option.
 
-{%- if cookiecutter.end2end_test == "Yes" %}
+{% if cookiecutter.end2end_test == "Yes" %}
 2. End2end tests
 
    These tests are run ... (describe) ..., and the tests validate
@@ -155,7 +155,7 @@ There are multiple types of tests:
 
    Options for pytest can be passed using the ``--pytest-options`` option.
 
-{%- endif %}
+{% endif %}
 To run the unit tests in all supported Python environments, the
 Tox tool can be used. It creates the necessary virtual Python environments and
 executes `make test` (i.e. the unit tests) in each of them.
