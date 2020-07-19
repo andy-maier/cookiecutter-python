@@ -199,6 +199,9 @@ doc_dependent_files := \
 # PyLint config file
 pylint_rc_file := pylintrc
 
+# PyLint additional options
+pylint_opts := --disable=fixme
+
 # Flake8 config file
 flake8_rc_file := .flake8
 
@@ -528,12 +531,20 @@ $(bdist_file) $(sdist_file): setup.py MANIFEST.in $(dist_included_files)
 	@echo "Makefile: Done creating the distribution archive files: $(bdist_file) $(sdist_file)"
 
 pylint_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile $(pylint_rc_file) $(py_src_files)
+ifeq ($(python_m_version),2)
+	@echo "makefile: Warning: Skipping Pylint on Python $(python_version)" >&2
+else
+ifeq ($(python_mn_version),3.4)
+	@echo "makefile: Warning: Skipping Pylint on Python $(python_version)" >&2
+else
 	@echo "Makefile: Running Pylint"
 	-$(call RM_FUNC,$@)
 	pylint --version
-	pylint --rcfile=$(pylint_rc_file) $(py_src_files)
+	pylint $(pylint_opts) --rcfile=$(pylint_rc_file) $(py_src_files)
 	echo "done" >$@
 	@echo "Makefile: Done running Pylint"
+endif
+endif
 
 flake8_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile $(flake8_rc_file) $(py_src_files)
 	@echo "Makefile: Running Flake8"
