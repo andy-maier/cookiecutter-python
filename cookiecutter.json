@@ -7,8 +7,7 @@
   "github_repo": "python-{{ cookiecutter.package_name }}",
   "full_name": "John Doe",
   "email": "john.doe@gmx.de",
-  "pypi_username": "{{ cookiecutter.github_org }}",
-  "appveyor_username": "{{ cookiecutter.pypi_username }}",
+  "appveyor_username": "john-doe",
   "command_line_interface": ["Click", "Argparse", "None"],
   "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"]
 }
