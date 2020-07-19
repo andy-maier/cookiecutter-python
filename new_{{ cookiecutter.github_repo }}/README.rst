@@ -1,16 +1,12 @@
 {{ cookiecutter.project_name }} - {{ cookiecutter.short_description }}
 ===============================
 
-.. image:: https://img.shields.io/pypi/v/{{ cookiecutter.package_name }}.svg
+.. image:: https://badge.fury.io/py/{{ cookiecutter.package_name }}.svg
     :target: https://pypi.python.org/pypi/{{ cookiecutter.package_name }}/
     :alt: Version on Pypi
 
-.. # .. image:: https://img.shields.io/pypi/dm/{{ cookiecutter.package_name }}.svg
-.. #     :target: https://pypi.python.org/pypi/{{ cookiecutter.package_name }}/
-.. #     :alt: Pypi downloads
-
 .. image:: https://travis-ci.org/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}.svg?branch=master
-    :target: https://travis-ci.org/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/branches
+    :target: https://travis-ci.org/github/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/builds
     :alt: Travis test status (master)
 
 .. # Update the URL in the Appveyor image link below to match the
