@@ -252,7 +252,9 @@ script:
   - make check
   # - if [[ -n $_MANUAL_CI_RUN ]]; then make pylint; fi
   - make pylint
+{%- if cookiecutter.install_test == "Yes" %}
   - make installtest
+{%- endif %}
   - make test
 
 after_success:

@@ -63,6 +63,8 @@ Usage
     * ``command_line_interface`` - Selection of command line packages that you
       want to use.
     * ``open_source_license`` - Selection of license that you want to use.
+    * ``install_test`` - Choose whether to include ability for install testing.
+    * ``end2end_test`` - Choose whether to include ability for end2end testing.
 
     This creates the new project in a subdirectory named ``new_{github_repo}``.
 
