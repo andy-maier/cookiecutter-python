@@ -58,8 +58,6 @@ Usage
       maintainer in setup.py.
     * ``email`` - Email address of the author. Will be used as author and
       maintainer email in setup.py.
-    * ``pypi_username`` - Username to be used on PyPI. Is needed for badges on
-      the README page.
     * ``appveyor_username`` - Username to be used on Appveyor. Is needed for
       links to the Appveyor project, e.g. in badges on the README page.
     * ``command_line_interface`` - Selection of command line packages that you
