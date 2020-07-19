@@ -139,7 +139,8 @@ python-coveralls==2.9.2
 pytest-cov==2.7.0
 # PyYAML is pulled in by python-coveralls
 PyYAML==5.3; python_version == '2.7'  # PyYAML 5.3 fixes narrow build error
-PyYAML==5.1; python_version >= '3.4'
+PyYAML==5.1; python_version >= '3.4' and python_version < '3.8'
+PyYAML==5.1.2; python_version >= '3.8'
 
 # Safety CI by pyup.io
 safety==1.8.4
