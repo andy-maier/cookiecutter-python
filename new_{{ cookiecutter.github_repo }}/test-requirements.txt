@@ -6,8 +6,6 @@
 # Make sure that the minimum versions required in this file are consistent with
 # the minimum versions specified in minimum-constraints.txt.
 
--r requirements.txt
-
 
 # Direct dependencies:
 
