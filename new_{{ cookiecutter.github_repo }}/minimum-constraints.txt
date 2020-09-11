@@ -209,6 +209,7 @@ jupyter_core==4.2.1; python_version != '3.4' or sys_platform != 'win32'
 nbconvert==5.0.0; python_version != '3.4' or sys_platform != 'win32'
 nbformat==4.2.0; python_version != '3.4' or sys_platform != 'win32'
 notebook==4.3.1; python_version != '3.4' or sys_platform != 'win32'
+pyrsistent==0.14.0; python_version != '3.4' or sys_platform != 'win32'
 
 # Performance profiling tools
 pyinstrument==3.0.1
