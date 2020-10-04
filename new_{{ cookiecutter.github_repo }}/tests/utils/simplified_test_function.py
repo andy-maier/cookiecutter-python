@@ -167,7 +167,7 @@ def simplified_test_function(test_func):
                     ret = None  # Debugging hint
 
                     # Verify that no warnings have occurred
-                    if exp_warn_types is None and len(rec_warnings) > 0:
+                    if exp_warn_types is None and rec_warnings:
                         lines = []
                         for w in rec_warnings.list:
                             tup = (w.filename, w.lineno, w.category.__name__,
