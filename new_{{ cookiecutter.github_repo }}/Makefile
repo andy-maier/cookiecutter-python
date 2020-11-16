@@ -227,10 +227,18 @@ ifeq ($(python_m_version),3)
 else
   pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning
 endif
+
 {% if cookiecutter.end2end_test == "Yes" %}
 pytest_end2end_opts := -v --tb=short $(pytest_opts)
 pytest_end2end_warning_opts := $(pytest_warning_opts)
 {% endif %}
+
+ifeq ($(python_mn_version),py34)
+  pytest_cov_opts :=
+else
+  pytest_cov_opts := --cov $(package_name) $(coverage_report) --cov-config .coveragerc
+endif
+
 # Files to be put into distribution archive.
 # This is also used for 'include' statements in MANIFEST.in.
 # Wildcards can be used directly (i.e. without wildcard function).
@@ -574,7 +582,7 @@ endif
 .PHONY: test
 test: $(test_deps)
 	@echo "Makefile: Running unit tests"
-	py.test --color=yes --cov $(package_name) $(coverage_report) --cov-config .coveragerc $(pytest_warning_opts) $(pytest_opts) $(test_dir)/unittest -s
+	py.test --color=yes $(pytest_cov_opts) $(pytest_warning_opts) $(pytest_opts) $(test_dir)/unittest -s
 	@echo "Makefile: Done running unit tests"
 {% if cookiecutter.install_test == "Yes" %}
 .PHONY: installtest
