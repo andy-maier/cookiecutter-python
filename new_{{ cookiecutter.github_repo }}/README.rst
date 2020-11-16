@@ -5,16 +5,9 @@
     :target: https://pypi.python.org/pypi/{{ cookiecutter.package_name }}/
     :alt: Version on Pypi
 
-.. image:: https://travis-ci.org/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}.svg?branch=master
-    :target: https://travis-ci.org/github/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/builds
-    :alt: Travis test status (master)
-
-.. # Update the URL in the Appveyor image link below to match the
-.. # "SVG branchimage URL" from the "master branch status badge" section on
-.. # the Settings -> Badges page of the project on Appveyor.
-.. image:: https://ci.appveyor.com/api/projects/status/UPDATE-THIS/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/{{ cookiecutter.appveyor_username }}/{{ cookiecutter.github_repo }}/history
-    :alt: Appveyor test status (master)
+.. image:: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/workflows/test/badge.svg?branch=master
+    :target: https://github.com/{{ cookiecutter.github_org }}/{{ cookiecutter.github_repo }}/actions/
+    :alt: Actions status
 
 .. image:: https://readthedocs.org/projects/{{ cookiecutter.package_name }}/badge/?version=latest
     :target: https://readthedocs.org/projects/{{ cookiecutter.package_name }}/builds/
