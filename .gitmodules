@@ -1,0 +1,3 @@
+[submodule "new_{{ cookiecutter.github_repo }}"]
+	path = new_{{ cookiecutter.github_repo }}
+	url = https://github.com/andy-maier/cookiecutter-python-package
