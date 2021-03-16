@@ -15,9 +15,7 @@ The generated Python project features the following:
   Python environment that has previously been activated by the user.
 * Use of Tox for running make for checking and testing in a number of virtual
   Python environments created by Tox.
-* Use of Travis CI (for Linux and MacOS) & Appveyor CI (for Windows and Cygwin)
-  for running make for checking and testing each push or pull request in a
-  subset of the complete set of Python environments.
+* Use of GitHub Actions as a CI system on Linux, MacOS, Windows.
 * Use of Sphinx for generating documentation for the Python package, that is
   ready to be published on ReadTheDocs.
 * Use of coveralls for reporting and comparing test coverage.
@@ -58,8 +56,6 @@ Usage
       maintainer in setup.py.
     * ``email`` - Email address of the author. Will be used as author and
       maintainer email in setup.py.
-    * ``appveyor_username`` - Username to be used on Appveyor. Is needed for
-      links to the Appveyor project, e.g. in badges on the README page.
     * ``command_line_interface`` - Selection of command line packages that you
       want to use.
     * ``open_source_license`` - Selection of license that you want to use.
@@ -118,37 +114,17 @@ Usage
    - On GitHub, go to Settings / Branches and add a branch protection rule for
      branch "master".
 
-4.  To enable testing on Travis:
+   - Testing with GitHub Actions is automatically enabled since a workflow
+     file `.github/workflows/test.yml` has been created.
 
-    - Have a user on Travis (https://www.travis-ci.org/), have it authorized
-      for your GitHub account, and log in to Travis.
-
-    - In the Travis Settings, sync the Travis account (with your Github account)
-      and enable the new GitHub repo that is now shown.
-
-5.  To enable testing on Appveyor:
-
-    - Have a user on Appveyor (https://appveyor.com), have it authorized
-      for your GitHub account, and log in to Appveyor.
-
-    - In the Appveyor Projects, add a new project and select the new GitHub
-      repo for the new project.
-
-    - In the Appveyor Settings -> General for the new project, enable the
-      "Do not build on Push events" checkmark and save the settings.
-
-    - In the Appveyor Settings -> Badges page, copy the "SVG branchimage URL"
-      from the "master branch status badge" section and update the ``README.rst``
-      file in the new repo as indicated in that file (search for Appveyor).
-
-6.  To enable coverage reporting to Coveralls:
+4.  To enable coverage reporting to Coveralls:
 
     - Have a user on Coveralls (https://coveralls.io), have it authorized
       for your GitHub account, and log in to Coveralls.
 
     - In the left hand menu, add a repo and turn the new GitHub repo on.
 
-7.  To enable publishing the documentation to ReadTheDocs:
+5.  To enable publishing the documentation to ReadTheDocs:
 
     - Have a user on ReadTheDocs (https://readthedocs.org), and log in
       to ReadTheDocs.
@@ -167,7 +143,7 @@ Usage
       - ``README.rst``
       - ``docs/development.rst``
 
-8.  To enable publishing the package on PyPI:
+6.  To enable publishing the package on PyPI:
 
     - Have or create a user on PyPI (https://pypi.python.org). The project
       on PyPI is created when the first version of the package is uploaded.
