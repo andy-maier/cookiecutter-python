@@ -1,17 +1,28 @@
 {
   "project_name": "New Project",
   "short_description": "Short description of New Project",
-  "package_name": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "pypi_package_name": "{[ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') ]}",
+  "python_package_name": "{[ cookiecutter.pypi_package_name.replace(' ', '_').replace('-', '_') ]}",
   "package_version": "0.1.0",
   "github_org": "john-doe",
-  "github_repo": "python-{{ cookiecutter.package_name }}",
-  "full_name": "John Doe",
-  "email": "john.doe@gmx.de",
-  "command_line_interface": ["Click", "Argparse", "None"],
-  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
-  "install_test": ["Yes", "No"],
-  "end2end_test": ["Yes", "No"],
-  "_copy_without_render": [
-    ".github/workflows/*.yml"
-  ]
+  "github_repo": "{[ cookiecutter.pypi_package_name ]}",
+  "author_full_name": "John Doe",
+  "author_email": "john.doe@gmx.de",
+  "package_type": ["Command using click", "Command using argparse", "Library"],
+  "license": ["Apache-2.0", "MIT license", "BSD license", "ISC license", "GNU General Public License v3", "Not open source"],
+  "with_changelog": ["Yes", "No"],
+  "with_readthedocs": ["Yes", "No"],
+  "with_jupyter_notebook": ["Yes", "No"],
+  "with_install_test": ["Yes", "No"],
+  "with_end2end_test": ["Yes", "No"],
+  "with_slack_notification": ["Yes", "No"],
+  "_copy_without_render": [],
+  "_jinja2_env_vars": {
+    "block_start_string": "{%",
+    "block_end_string": "%}",
+    "variable_start_string": "{[",
+    "variable_end_string": "]}",
+    "comment_start_string": "{#",
+    "comment_end_string": "#}"
+  }
 }
