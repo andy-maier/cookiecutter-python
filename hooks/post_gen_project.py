@@ -14,8 +14,13 @@ import shutil
 # indicates the feature is not enabled.
 # Path names must be relative to the project main directory.
 REMOVE_FILES = {
-    "with_changelog": ["changes", "towncrier.toml"],
-    "with_readthedocs": ["docs", ".readthedocs.yaml"],
+    "with_changelog": [
+        "changes", "towncrier.toml"
+    ],
+    "with_readthedocs": [
+        "changes", "towncrier.toml", # implies no with_changelog
+        "docs", ".readthedocs.yaml", "requirements-rtd.txt"
+    ],
     "with_jupyter_notebook": [],
     "with_install_test": ["tests/install"],
     "with_end2end_test": ["tests/end2end"],
