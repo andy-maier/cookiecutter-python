@@ -220,11 +220,15 @@ https://github.com/andy-maier/cookiecutter-python-package
 in order to be able to also use it as a hub repo for sharing general changes to
 the project setup between multiple unrelated Python projects.
 
+The default delimiters for cookiecutter templating have been changed so they
+do not collide with `${{ ... }}` used in GitHub Actions workflows or `[[ ... ]]`
+used in shell code. See `cookiecutter.json` for details.
+
 ### Setting up the environment
 
 1.  Create and activate a virtual Python environment
 
-2.  Install the packages needed for development::
+2.  Install the packages needed for development:
 
     ```
     make develop
@@ -232,7 +236,7 @@ the project setup between multiple unrelated Python projects.
 
 ### Testing
 
-To test the creation of Python projects from the template repo, run::
+To test the creation of Python projects from the template repo, run:
 
 ```
 make test
