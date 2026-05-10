@@ -17,6 +17,25 @@ KEEP_OUT_DIR = False
 # Controls whether debug messages are displayed
 DEBUG = False
 
+
+def path_info(file_path):
+    """
+    Return information about the existence of the specified file path and
+    its parent directories until one exists.
+    """
+    lines = ""
+    if os.path.isfile(file_path):
+        lines += f"path_info: File exists: {file_path}\n"
+    elif os.path.isdir(file_path):
+        lines += f"path_info: Directory exists: {file_path}\n"
+    else:
+        lines += f"path_info: Does not exist: {file_path}\n"
+        parent_path = os.path.dirname(file_path)
+        if parent_path != file_path:
+            lines += path_info(parent_path)
+    return lines
+
+
 TESTCASES_CC_CREATE = [
     # Testcases for test_cc_create()
 
@@ -832,35 +851,44 @@ def test_cc_create(
 
             out_dir = os.path.join(tmp_dir, exp_out_dir)
             assert os.path.isdir(out_dir), (
-                f"Expected output directory does not exist: {out_dir!r}"
+                f"Expected output directory does not exist: {out_dir!r}\n"
+                f"{path_info(out_dir)}"
             )
 
             for fn in exp_files_present:
                 fp = os.path.join(out_dir, fn)
                 assert os.path.isfile(fp), (
-                    f"File expected to be present is missing: {fn!r}"
+                    f"File expected to be present is missing: {fn!r}\n"
+                    f"{path_info(fp)}"
                 )
 
             for fn in exp_files_absent:
                 fp = os.path.join(out_dir, fn)
                 assert not os.path.exists(fp), (
-                    f"File expected to be absent exists: {fn!r}"
+                    f"File expected to be absent exists: {fn!r}\n"
+                    f"{path_info(fp)}"
                 )
 
             for fn in exp_dirs_present:
                 fp = os.path.join(out_dir, fn)
                 assert os.path.isdir(fp), (
-                    f"Directory expected to be present is missing: {fn!r}"
+                    f"Directory expected to be present is missing: {fn!r}\n"
+                    f"{path_info(fp)}"
                 )
 
             for fn in exp_dirs_absent:
                 fp = os.path.join(out_dir, fn)
                 assert not os.path.exists(fp), (
-                    f"Directory expected to be absent exists: {fn!r}"
+                    f"Directory expected to be absent exists: {fn!r}\n"
+                    f"{path_info(fp)}"
                 )
 
             for fn, exp_lines in exp_lines_present.items():
                 fp = os.path.join(out_dir, fn)
+                assert os.path.isfile(fp), (
+                    f"File for checking lines is missing: {fn!r}\n"
+                    f"{path_info(fp)}"
+                )
                 with open(fp, encoding="utf-8") as f:
                     content = f.read()
                 for exp_pattern in exp_lines:
@@ -872,6 +900,10 @@ def test_cc_create(
 
             for fn, exp_lines in exp_lines_absent.items():
                 fp = os.path.join(out_dir, fn)
+                assert os.path.isfile(fp), (
+                    f"File for checking lines is missing: {fn!r}\n"
+                    f"{path_info(fp)}"
+                )
                 with open(fp, encoding="utf-8") as f:
                     content = f.read()
                 for exp_pattern in exp_lines:
