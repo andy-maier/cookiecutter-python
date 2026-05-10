@@ -62,8 +62,6 @@ The generated Python project features the following:
     * `python_package_name` - The name of the Python package to import.
       Should be lower case with underscores for word separation.
       Must not contain any other special characters.
-    * `package_version` - Initial package version in M.N.P syntax (the project
-      uses semantic versioning).
     * `github_org` - Name of the GitHub organization that contains the project
       repo.
     * `github_repo` - Name of the GitHub repository within the GitHub
