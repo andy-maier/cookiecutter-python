@@ -1,8 +1,7 @@
-Cookiecutter template for Python projects
-=========================================
+# Cookiecutter template for Python projects
 
 This is a template for the popular
-`cookiecutter <https://cookiecutter.readthedocs.io/en/latest/>`_ project
+[cookiecutter](https://cookiecutter.readthedocs.io/en/latest/) project
 for generating a Python project.
 
 The generated Python project features the following:
@@ -25,8 +24,7 @@ The generated Python project features the following:
 * Support for publishing the package to Pypi and the documentation to ReadTheDocs.
 * Use of semantic versioning (M.N.P).
 
-Usage
------
+## Usage
 
 1.  If you don't have cookiecutter installed yet, install it so that it is
     useable at the OS level (i.e. without requiring a virtual Python
@@ -34,71 +32,71 @@ Usage
 
     In macOS, install it as an OS-level package:
 
-    .. code-block:: bash
-
-        $ brew install cookiecutter
+    ```
+    brew install cookiecutter
+    ```
 
     On any platform, you can install it as a command that creates its own
     virtual Python environment:
 
-    .. code-block:: bash
-
-        $ pipx install cookiecutter
+    ```
+    pipx install cookiecutter
+    ```
 
 2.  In the directory where you want the subdirectory for the new Python project
     to be created, issue:
 
-    .. code-block:: bash
-
-        $ cookiecutter https://github.com/andy-maier/cookiecutter-python
+    ```
+    cookiecutter https://github.com/andy-maier/cookiecutter-python
+    ```
 
     You will be prompted for the following input parameters:
 
-    * ``project_name`` - A project name for use in titles, docs, etc. May contain
+    * `project_name` - A project name for use in titles, docs, etc. May contain
       blanks and mixed case.
-    * ``short_description`` - A short (one-line) description of the project.
-    * ``pypi_package_name`` - The name of the distribution package on Pypi.
+    * `short_description` - A short (one-line) description of the project.
+    * `pypi_package_name` - The name of the distribution package on Pypi.
       Should be lower case, and dashes (preferred) or underscores can be used
       for word separation.
       Must not contain any other special characters.
-    * ``python_package_name`` - The name of the Python package to import.
+    * `python_package_name` - The name of the Python package to import.
       Should be lower case with underscores for word separation.
       Must not contain any other special characters.
-    * ``package_version`` - Initial package version in M.N.P syntax (the project
+    * `package_version` - Initial package version in M.N.P syntax (the project
       uses semantic versioning).
-    * ``github_org`` - Name of the GitHub organization that contains the project
+    * `github_org` - Name of the GitHub organization that contains the project
       repo.
-    * ``github_repo`` - Name of the GitHub repository within the GitHub
+    * `github_repo` - Name of the GitHub repository within the GitHub
       organization.
-    * ``author_full_name`` - Full name of the author. Will be used as author and
+    * `author_full_name` - Full name of the author. Will be used as author and
       maintainer in the package metadata.
-    * ``author_email`` - Email address of the author. Will be used as author and
+    * `author_email` - Email address of the author. Will be used as author and
       maintainer email in the package metadata.
-    * ``package_type`` - Selection of the type of package (CLI, library, ...).
-    * ``license`` - Selection of the license you want to use (in new PEP 639 format).
-    * ``with_readthedocs`` - Choose whether to build docs with Sphinx and publish on ReadTheDocs.org.
-    * ``with_changelog`` - Choose whether to build a change log with towncrier (requires with_readthedocs).
-    * ``with_jupyter_notebook`` - Choose whether to install Jupyter Notebook.
-    * ``with_install_test`` - Choose whether to include ability for install testing.
-    * ``with_end2end_test`` - Choose whether to include ability for end2end testing.
-    * ``with_slack_notification`` - Choose whether to post CI results on a Slack channel.
+    * `package_type` - Selection of the type of package (CLI, library, ...).
+    * `license` - Selection of the license you want to use (in new PEP 639 format).
+    * `with_readthedocs` - Choose whether to build docs with Sphinx and publish on ReadTheDocs.org.
+    * `with_changelog` - Choose whether to build a change log with towncrier (requires with_readthedocs).
+    * `with_jupyter_notebook` - Choose whether to install Jupyter Notebook.
+    * `with_install_test` - Choose whether to include ability for install testing.
+    * `with_end2end_test` - Choose whether to include ability for end2end testing.
+    * `with_slack_notification` - Choose whether to post CI results on a Slack channel.
 
-    This creates the new project in a subdirectory named ``new_{github_repo}``.
+    This creates the new project in a subdirectory named `new_{github_repo}`.
 
     To see which targets the Makefile supports, issue in the new directory:
 
-    .. code-block:: bash
-
-        $ make help
+    ```
+    make help
+    ```
 
 3. To put that project on GitHub, the following steps represent a proven
    practice. You may choose to do that differently, though.
 
-   The ``{x}`` notation is used to refer to the value of cookiecutter input
-   parameter ``x``.
+   The `{x}` notation is used to refer to the value of cookiecutter input
+   parameter `x`.
 
    - On GitHub (https://github.com), create a new repository
-     ``{github_org}/{github_repo}``.
+     `{github_org}/{github_repo}`.
 
    - On GitHub, change the settings of the new repo:
 
@@ -109,28 +107,28 @@ Usage
 
    - Clone that repo to your workstation and go to its working directory:
 
-     .. code-block:: bash
-
-         $ git clone git@github.com:{github_org}/{github_repo}.git
-         $ cd {github_repo}
+     ```
+     git clone git@github.com:{github_org}/{github_repo}.git
+     cd {github_repo}
+     ```
 
    - Set user name and email in your local config of the cloned repo:
 
-     .. code-block:: bash
-
-         $ git config --local --add user.name "{full_name}"
-         $ git config --local --add user.email {email}
+     ```
+     git config --local --add user.name "{full_name}"
+     git config --local --add user.email {email}
+     ```
 
    - Add, commit and push the generated cookiecutter project to the repo,
-     creating a ``main`` branch:
+     creating a `main` branch:
 
-     .. code-block:: bash
-
-         $ git checkout -b main
-         $ mv ../new_{github_repo}/* .
-         $ git add --all
-         $ git commit -sm "Initial project as generated by cookiecutter"
-         $ git push --set-upstream origin main
+     ```
+     git checkout -b main
+     mv ../new_{github_repo}/* .
+     git add --all
+     git commit -sm "Initial project as generated by cookiecutter"
+     git push --set-upstream origin main
+     ```
 
    - On GitHub, go to Settings / Branches and add a branch protection rule for
      branch "main".
@@ -147,11 +145,11 @@ Usage
 
 5.  To enable publishing the documentation to ReadTheDocs:
 
-    Perform this step only when cookiecutter parameter ``with_readthedocs`` was
+    Perform this step only when cookiecutter parameter `with_readthedocs` was
     selected.
 
-    - `Log in to ReadtheDocs.org <https://app.readthedocs.org/accounts/login/>`_
-      (or `sign up <https://app.readthedocs.org/accounts/signup/>`_ if you do
+    - [Log in to ReadtheDocs.org](https://app.readthedocs.org/accounts/login/)
+      (or [sign up](https://app.readthedocs.org/accounts/signup/) if you do
       not have a user yet).
 
     - Go to "My Projects", select "Import a project", sync to get the repo list
@@ -163,14 +161,14 @@ Usage
       Since ReadTheDocs project names are global, that name may be taken
       already, in which case you need to find a new unused name.
 
-    - Adjust the ``<readthedocs_name>`` placeholder to the ReadTheDocs project
+    - Adjust the `<readthedocs_name>` placeholder to the ReadTheDocs project
       name in the following files:
 
-      - ``README.rst``
-      - ``INSTALL.md``
-      - ``pyproject.toml``
-      - ``docs/development.rst``
-      - ``.github/workflows/publish.rst``
+      - `README.rst`
+      - `INSTALL.md`
+      - `pyproject.toml`
+      - `docs/development.rst`
+      - `.github/workflows/publish.rst`
 
 6.  To enable publishing the package on Pypi:
 
@@ -179,7 +177,7 @@ Usage
 
 7.  To enable posting CI results on a Slack channel:
 
-    Perform this step only when cookiecutter parameter ``with_slack_notifications``
+    Perform this step only when cookiecutter parameter `with_slack_notifications`
     was selected.
 
     1.  Create the Slack incoming webhook
@@ -191,37 +189,65 @@ Usage
         - Click "Add New Webhook to Workspace".
         - Select the channel you want to post to, then click "Allow".
         - Copy the generated webhook URL — it looks like:
-          ``https://hooks.slack.com/services/T00000000/B00000000/XXXXXXX``
+          `https://hooks.slack.com/services/T00000000/B00000000/XXXXXXX`
 
     2.  Store the webhook URL as a GitHub secret
 
         - In your GitHub repo, go to Settings → Secrets and variables → Actions.
         - Click "New repository secret".
-        - Name it ``SLACK_HOOK`` and paste the generated webhook URL.
+        - Name it `SLACK_HOOK` and paste the generated webhook URL.
         - Click "Add secret".
 
-        Note: The name must be ``SLACK_HOOK`` - this is the name used
+        Note: The name must be `SLACK_HOOK` - this is the name used
         by the notify.yml Actions workflow.
 
 8.  Download the license file:
 
-    The new project uses the license file named ``LICENSE``. By default, that
+    The new project uses the license file named `LICENSE`. By default, that
     file has the "Apache-2.0" license.
 
     If you selected a different license for the cookiecutter parameter
     "license", download the corresponding license file under the name
-    ``LICENSE``. A good starting point for finding the license and download
+    `LICENSE`. A good starting point for finding the license and download
     links is https://spdx.org/licenses/.
 
-Development of this repo
-------------------------
+## Development
 
-Command to create the submodule::
+This section briefly describes development of this project.
 
-    git submodule add --name 'new_{[ cookiecutter.github_repo ]}' https://github.com/andy-maier/cookiecutter-python-package 'new_{[ cookiecutter.github_repo ]}'
+The actual Python template project is in a separate repo
+https://github.com/andy-maier/cookiecutter-python-package
+in order to be able to also use it as a hub repo for sharing general changes to
+the project setup between multiple unrelated Python projects.
 
-License
--------
+### Setting up the environment
+
+1.  Create and activate a virtual Python environment
+
+2.  Install the packages needed for development::
+
+    ```
+    make develop
+    ```
+
+### Testing
+
+To test the creation of Python projects from the template repo, run::
+
+```
+make test
+```
+
+### Creating the submodule
+
+In case the submodule for the template repo needs to be recreated for some
+reason, here is the command for that:
+
+```
+git submodule add --name 'new_{[ cookiecutter.github_repo ]}' https://github.com/andy-maier/cookiecutter-python-package 'new_{[ cookiecutter.github_repo ]}'
+```
+
+## License
 
 This cookiecutter template is provided under the
-`Apache 2.0 license <LICENSE>`_.
+[Apache 2.0 license](LICENSE).
