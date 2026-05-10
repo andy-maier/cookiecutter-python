@@ -31,7 +31,7 @@ VARIABLES = {
     "with_install_test": "{[ cookiecutter.with_install_test ]}",
     "with_end2end_test": "{[ cookiecutter.with_end2end_test ]}",
     "with_slack_notification": "{[ cookiecutter.with_slack_notification ]}",
-    "always": "Yes",
+    "always": "No",
 }
 
 # Remove the files for the features that are disabled

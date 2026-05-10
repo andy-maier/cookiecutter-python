@@ -1,0 +1,64 @@
+# ------------------------------------------------------------------------------
+# Pip constraints file for packages needed for development.
+#
+# This file specifies constraints that match the minimum versions specified in
+# requirements-develop.txt.
+
+# ------------------------------------------------------------------------------
+# Direct and necessary indirect dependencies for development.
+# Must be consistent with requirements-develop.txt.
+
+# Cookiecutter
+cookiecutter==2.6.0
+
+# Test driver
+pytest==8.4.2
+pluggy==1.6.0
+
+# Flake8 checker
+flake8==7.3.0
+mccabe==0.7.0
+pycodestyle==2.14.0
+pyflakes==3.4.0
+
+# Ruff checker
+ruff==0.15.12
+
+# PyLint checker
+pylint==3.3.9
+astroid==3.3.11
+
+# Package dependency management tools
+pipdeptree==2.28.0
+pip-check-reqs==2.5.6
+
+
+# ------------------------------------------------------------------------------
+# Indirect dependencies for development that are needed in the requirements
+# file for some reason. Must be consistent with requirements-develop.txt.
+
+
+# ------------------------------------------------------------------------------
+# All other indirect dependencies for development that are not in
+# requirements-develop.txt.
+
+arrow==1.4.0
+binaryornot==0.4.4
+chardet==5.2.0
+click==8.1.8
+dill==0.4.1
+# For importlib_metadata versions in Python, see https://pypi.org/project/importlib-metadata/
+importlib_metadata==8.7.1
+iniconfig==2.1.0
+isort==6.1.0
+Jinja2==3.1.6
+packaging==26.2
+pip==26.0.1
+platformdirs==4.4.0
+python-slugify==8.0.4
+PyYAML==6.0.3
+requests==2.32.5
+rich==15.0.0
+tomli==4.2.1
+tomlkit==0.15.0
+typing_extensions==4.15.0
