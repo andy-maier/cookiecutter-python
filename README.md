@@ -23,6 +23,7 @@ The generated Python project features the following:
 * Selection of the license to be used for the new project.
 * Support for publishing the package to Pypi and the documentation to ReadTheDocs.
 * Use of semantic versioning (M.N.P).
+* Several feature flags for controlling optional features.
 
 ## Usage
 

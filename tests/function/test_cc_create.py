@@ -1,15 +1,15 @@
 """
-Tests with using cookiecutter.
+Tests for creating repos with cookiecutter.
 """
 
 import os
 import re
-import subprocess
 import tempfile
 import shutil
 
 import pytest
 
+from ..utils.utils import path_info, run_args
 
 # Controls whether the output directory is kept for debugging
 KEEP_OUT_DIR = False
@@ -18,30 +18,12 @@ KEEP_OUT_DIR = False
 DEBUG = False
 
 
-def path_info(file_path):
-    """
-    Return information about the existence of the specified file path and
-    its parent directories until one exists.
-    """
-    lines = ""
-    if os.path.isfile(file_path):
-        lines += f"path_info: File exists: {file_path}\n"
-    elif os.path.isdir(file_path):
-        lines += f"path_info: Directory exists: {file_path}\n"
-    else:
-        lines += f"path_info: Does not exist: {file_path}\n"
-        parent_path = os.path.dirname(file_path)
-        if parent_path != file_path:
-            lines += path_info(parent_path)
-    return lines
-
-
 TESTCASES_CC_CREATE = [
     # Testcases for test_cc_create()
 
     # Each testcase is a tuple of:
     # * desc (str): Brief oneline description of the testcase.
-    # * input_parms (dict): Non-default input paraneters for cookiecutter.
+    # * input_parms (dict): Non-default input parameters for cookiecutter.
     # * exp_out_dir (str): Path names of expected output directory.
     # * exp_files_present (list of str): Path names of files that are expected
     #   to exist in case of success.
@@ -797,7 +779,7 @@ def test_cc_create(
         exp_lines_absent, exp_rc, exp_stdout_pattern, exp_stderr_pattern):
     # pylint: disable=unused-argument
     """
-    Test creation of cookiecutter projects.
+    Test creation of repos with cookiecutter.
     """
 
     # The template directory, using the git submodule
@@ -810,17 +792,8 @@ def test_cc_create(
     try:
         parm_args = [f"{name}={value}" for name, value in input_parms.items()]
         args = ["cookiecutter", "--no-input", template_dir] + parm_args
-        if DEBUG:
-            print(f"Debug: args={args!r}")
 
-        try:
-            result = subprocess.run(
-                args, cwd=tmp_dir, capture_output=True, text=True, check=False,
-                timeout=30)
-        except IOError as exc:
-            raise AssertionError(
-                f"Cannot run command with args: {args}, "
-                f"{exc.__class__.__name__}: {exc}")
+        result = run_args(args=args, cwd=tmp_dir)
 
         assert result.returncode == exp_rc, (
             f"Unexpected exit code: {result.returncode} (expected: {exp_rc})\n"

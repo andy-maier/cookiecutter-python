@@ -151,6 +151,7 @@ all: develop flake8 ruff pylint check_reqs test
 
 .PHONY: check
 check: flake8 ruff pylint
+	@echo "Makefile: $@ done."
 
 .PHONY: platform
 platform:
@@ -205,33 +206,27 @@ flake8: $(done_dir)/flake8_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
 
 $(done_dir)/flake8_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done $(flake8_rc_file) $(check_py_files)
-	@echo "Makefile: Running Flake8"
 	rm -f $@
 	flake8 --config $(flake8_rc_file) $(check_py_files)
 	echo "done" >$@
-	@echo "Makefile: Done running Flake8"
 
 .PHONY: ruff
 ruff: $(done_dir)/ruff_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
 
 $(done_dir)/ruff_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done $(ruff_rc_file) $(check_py_files)
-	@echo "Makefile: Running Ruff"
 	rm -f $@
 	ruff check --unsafe-fixes --config $(ruff_rc_file) $(check_py_files)
 	echo "done" >$@
-	@echo "Makefile: Done running Ruff"
 
 .PHONY: pylint
 pylint: $(done_dir)/pylint_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
 
 $(done_dir)/pylint_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done $(pylint_rc_file) $(check_py_files)
-	@echo "Makefile: Running Pylint"
 	rm -f $@
 	pylint $(pylint_opts) --rcfile=$(pylint_rc_file) --output-format=text $(check_py_files)
 	echo "done" >$@
-	@echo "Makefile: Done running Pylint"
 
 .PHONY: check_reqs
 check_reqs: $(done_dir)/check_reqs_$(pymn)_$(PACKAGE_LEVEL).done
@@ -251,7 +246,7 @@ endif
 
 .PHONY: test
 test: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done $(test_py_files)
-	PYTHONPATH=. pytest $(pytest_general_opts) $(pytest_test_opts) $(test_dir)/function
+	pytest $(pytest_general_opts) $(pytest_test_opts) $(test_dir)/function
 	@echo "Makefile: $@ done."
 
 .PHONY: clean
