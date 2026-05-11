@@ -1,0 +1,17 @@
+# Config file used by GitHub dependabot
+
+version: 2
+
+updates:
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "pip"
+    directory: "/new_{[ cookiecutter.github_repo ]}"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
