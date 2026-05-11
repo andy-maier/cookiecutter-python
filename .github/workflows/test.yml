@@ -77,22 +77,6 @@ jobs:
     env:
       PIP_DISABLE_PIP_VERSION_CHECK: 1
     steps:
-    - name: Set run type (normal, scheduled, release)
-      id: set-run-type
-      uses: actions/github-script@v9
-      with:
-        result-encoding: string
-        script: |
-          var result
-          if ("${{ github.event_name }}" == "schedule") {
-            result = "scheduled"
-          } else if ("${{ github.head_ref }}".match(/^release_/)) {
-            result = "release"
-          } else {
-            result = "normal"
-          }
-          console.log(result)
-          return result
     - name: Checkout repo
       uses: actions/checkout@v6
       with:
@@ -127,31 +111,26 @@ jobs:
     - name: Display environment
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make env
     - name: Display initial Python packages
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make pip_list
     - name: Display platform
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make platform
     - name: Development setup
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make develop
     - name: Show installed package versions
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make pip_list
     - name: Show package dependency tree
@@ -161,32 +140,27 @@ jobs:
     - name: Run flake8
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make flake8
     - name: Run ruff
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make ruff
     - name: Run pylint
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make pylint
     - name: Run test
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
         # TESTCASES: a value for pytest -k
       run: |
         make test
     - name: Run check_reqs
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
-        RUN_TYPE: ${{ steps.set-run-type.outputs.result }}
       run: |
         make check_reqs
 

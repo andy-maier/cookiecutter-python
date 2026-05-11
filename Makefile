@@ -57,11 +57,6 @@ else
   endif
 endif
 
-# Run type (normal, scheduled, release, local)
-ifndef RUN_TYPE
-  RUN_TYPE := local
-endif
-
 # Python major and minor version as a short identifier
 pymn := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write(f'py{sys.version_info[0]}{sys.version_info[1]}')")
 
@@ -134,8 +129,7 @@ help:
 	@echo "Environment variables:"
 	@echo "  TESTCASES=...     - Testcase filter for pytest -k"
 	@echo "  TESTOPTS=...      - Options for pytest"
-	@echo "  PACKAGE_LEVEL     - Package level to be used for installing dependent Python"
-	@echo "      packages in 'install' and 'develop' targets:"
+	@echo "  PACKAGE_LEVEL     - Package level to be used for installing dependent Python packages:"
 	@echo "        latest        - Latest package versions available on Pypi"
 	@echo "        minimum       - Minimum versions as defined in minimum-constraints*.txt"
 	@echo "      Optional, defaults to 'latest'."

@@ -16,7 +16,7 @@ from ..utils.utils import run_args
 KEEP_OUT_DIR = False
 
 # Controls whether the 'make' command output is shown for debugging
-SHOW_MAKE = True
+SHOW_MAKE = False
 
 
 TESTCASES_CC_MAKE = [
@@ -160,7 +160,10 @@ def test_cc_make(
         if env.get("PIP_CMD"):
             del env["PIP_CMD"]
 
-        # PACKAGE_LEVEL and RUN_TYPE are passed through.
+        # Set RUN_TYPE to 'normal' to have tolerant handling of safety issues.
+        env["RUN_TYPE"] = "normal"
+
+        # PACKAGE_LEVEL is passed through.
 
         # Run the 'make' command to be tested
         result = run_args(args=cmd_args, cwd=out_dir, timeout=600, env=env)
