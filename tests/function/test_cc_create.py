@@ -782,8 +782,9 @@ def test_cc_create(
     Test creation of repos with cookiecutter.
     """
 
-    # The template directory, using the git submodule
-    template_dir = os.path.abspath(
+    # The template repo
+    # template_ref = "https://github.com/andy-maier/cookiecutter-python"
+    template_ref = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", ".."))
 
     # Create a named temporary directory
@@ -791,7 +792,7 @@ def test_cc_create(
 
     try:
         parm_args = [f"{name}={value}" for name, value in input_parms.items()]
-        args = ["cookiecutter", "--no-input", template_dir] + parm_args
+        args = ["cookiecutter", "--no-input", template_ref] + parm_args
 
         result = run_args(args=args, cwd=tmp_dir)
 

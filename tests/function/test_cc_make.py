@@ -91,8 +91,9 @@ def test_cc_make(
     Test running make commands in a repo created by cookiecutter.
     """
 
-    # The template directory, using the git submodule
-    template_dir = os.path.abspath(
+    # The template repo
+    # template_ref = "https://github.com/andy-maier/cookiecutter-python"
+    template_ref = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", ".."))
 
     try:
@@ -106,7 +107,7 @@ def test_cc_make(
         # Create the repo using cookiecutter
         parm_args = [f"{name}={value}" for name, value in input_parms.items()]
         result = run_args(
-            args=["cookiecutter", "--no-input", template_dir] + parm_args,
+            args=["cookiecutter", "--no-input", template_ref] + parm_args,
             cwd=tmp_dir, check=True)
 
         # Initialize the repo for git and create a first commit so that
