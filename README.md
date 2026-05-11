@@ -10,9 +10,10 @@ optional features to also be suitable for more lightweight Python packages.
 
 The generated Python project features the following:
 
-* Use of GitHub (github.com) as a repository. This only affects links generated
-  in the documentation and readme files and can easily be adjusted by you
-  to something else after creating the project.
+* Support for Python 3.9 and higher.
+* Support for macOS, Linux, UNIX, Windows.
+* Use of GitHub (github.com) as a repository.
+* Use of GitHub Actions as a CI system for testing and publishing.
 * Use of GNU Make for encapsulating the typical actions such as install,
   test, etc. Each invocation of make operates in the currently active
   Python environment that has previously been activated by the user.
@@ -25,10 +26,10 @@ The generated Python project features the following:
 * Use of Python source code checkers: flake8, ruff, pylint.
 * Use of Python security checkers: safety, bandit.
 * Use of pytest for testing the project.
-* Use of coveralls for reporting and comparing test coverage.
+* Use of coverage for reporting test coverage.
+* Use of coveralls for publishing the test coverage.
 * Tests against latest and minimum Python package versions.
 * Support for end2end test and install test (optional).
-* Use of GitHub Actions as a CI system for testing and publishing.
 * Support for posting Actions completion notices on a Slack channel (optional).
 * Support for publishing the package to Pypi and the documentation to ReadTheDocs.
 * Support for installing Jupyter Notebook (optional).
