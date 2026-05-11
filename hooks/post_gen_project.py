@@ -24,7 +24,7 @@ REMOVE_FILES = {
     "with_jupyter_notebook": [],
     "with_install_test": ["tests/install"],
     "with_end2end_test": ["tests/end2end"],
-    "with_slack_notification": [],
+    "with_slack_notification": [".github/workflows/notify.yml"],
     "always": [".git"],
 }
 
