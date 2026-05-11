@@ -4,6 +4,10 @@ This is a template for the popular
 [cookiecutter](https://cookiecutter.readthedocs.io/en/latest/) project
 for generating a Python project.
 
+The template is targeted at professional Python packages with solid testing,
+checks and documentation. There are feature flags to disable some of the
+optional features to also be suitable for more lightweight Python packages.
+
 The generated Python project features the following:
 
 * Use of GitHub (github.com) as a repository. This only affects links generated
@@ -14,16 +18,25 @@ The generated Python project features the following:
   Python environment that has previously been activated by the user.
 * Use of Tox for running make in a number of virtual Python environments that
   are automatically created by Tox.
-* Use of GitHub Actions as a CI system for testing and publishing.
+* Use of semantic versioning (M.N.P) with dynamic versioning using setuptools-scm.
+* Use of TownCrier for managing the change log (optional).
 * Use of Sphinx for generating documentation for the Python package, that is
-  ready to be published on ReadTheDocs.
-* Use of coveralls for reporting and comparing test coverage.
+  ready to be published on ReadTheDocs (optional).
 * Use of Python source code checkers: flake8, ruff, pylint.
 * Use of Python security checkers: safety, bandit.
-* Selection of the license to be used for the new project.
+* Use of pytest for testing the project.
+* Use of coveralls for reporting and comparing test coverage.
+* Tests against latest and minimum Python package versions.
+* Support for end2end test and install test (optional).
+* Use of GitHub Actions as a CI system for testing and publishing.
+* Support for posting Actions completion notices on a Slack channel (optional).
 * Support for publishing the package to Pypi and the documentation to ReadTheDocs.
-* Use of semantic versioning (M.N.P).
-* Several feature flags for controlling optional features.
+* Support for installing Jupyter Notebook (optional).
+* Selection of the license to be used for the new project.
+* Several feature flags for controlling optional features (see below).
+
+The creation of a project from the template and the successful execution of make
+commands in the generated project are regularly tested.
 
 ## Usage
 
@@ -31,17 +44,18 @@ The generated Python project features the following:
     useable at the OS level (i.e. without requiring a virtual Python
     environment).
 
-    In macOS, install it as an OS-level package:
-
-    ```
-    brew install cookiecutter
-    ```
-
-    On any platform, you can install it as a command that creates its own
+    You can install it as a command (without having any virtual Python
+    environment active). The command runs in its own automatically created
     virtual Python environment:
 
     ```
     pipx install cookiecutter
+    ```
+
+    On macOS, you can also install it as an OS-level package:
+
+    ```
+    brew install cookiecutter
     ```
 
 2.  In the directory where you want the subdirectory for the new Python project
@@ -74,11 +88,11 @@ The generated Python project features the following:
     * `package_type` - Selection of the type of package (CLI, library, ...).
     * `license` - Selection of the license you want to use (in new PEP 639 format).
     * `with_readthedocs` - Choose whether to build docs with Sphinx and publish on ReadTheDocs.org.
-    * `with_changelog` - Choose whether to build a change log with towncrier (requires with_readthedocs).
+    * `with_changelog` - Choose whether to build a change log with TownCrier (requires `with_readthedocs`).
     * `with_jupyter_notebook` - Choose whether to install Jupyter Notebook.
     * `with_install_test` - Choose whether to include ability for install testing.
     * `with_end2end_test` - Choose whether to include ability for end2end testing.
-    * `with_slack_notification` - Choose whether to post CI results on a Slack channel.
+    * `with_slack_notification` - Choose whether to post Actions results on a Slack channel.
 
     This creates the new project in a subdirectory named `new_{github_repo}`.
 
